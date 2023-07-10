@@ -66,6 +66,7 @@ class Character(db.Model, SerializerMixin):
     
     user_characters = db.relationship('UserCharacter', back_populates='character', cascade='all')
     users = association_proxy('user_characters', 'user')
+    #! need another association with interaction / notebook
     
     serialize_only = ('id', 'name')
     serialize_rules = ()
@@ -88,6 +89,8 @@ class Notebook(db.Model, SerializerMixin):
     character = db.relationship('Character', back_populates='user_characters')
     user = db.relationship('User', back_populates='user_characters')
     
+    #! need association proxy with interaction / character
+    
     serialize_only = ('id', 'character.name', 'user.username')
     serialize_rules = ()
     
@@ -95,6 +98,19 @@ class Notebook(db.Model, SerializerMixin):
         return f'Notebook {self.id}, {self.character_id}, {self.user_id}, {self.visible_boolean}'
 
 class Interaction(db.Model, SerializerMixin):
+    __tablename__ = 'interactions'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    
+    character_id = ()
+    notebook_id = ()
+    type_of = ()
+    
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+    
+    character = db.relationship('Character', back_populates='interactions')
+    notebook = db.relationship('Notebook', back_populates='interactions')
     
     def __repr__(self):
         return f'Interaction {self.id}, {self.user_id}, {self.visible_boolean}, {self.type}' #{self.matchup_id}
