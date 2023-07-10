@@ -1,3 +1,10 @@
+# installs
+
+# client installs
+
+# server installs
+pipenv install faker
+
 # Phase 4 Full-Stack Application Project Template
 
 ## Learning Goals

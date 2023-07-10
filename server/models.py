@@ -3,7 +3,6 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
 from config import db
 
-
 class UserCharacter(db.Model, SerializerMixin):
     __tablename__ = 'user_characters'
     
@@ -136,6 +135,9 @@ class Clip(db.Model, SerializerMixin):
     
     note_id = db.Column(db.Integer, db.ForeignKey('notes.id'))
     embeded_text = db.Column(db.String, unique=True)
+    
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
     
     def __repr__(self):
         return f'Notebook {self.id}, {self.note_id}'
