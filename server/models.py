@@ -18,7 +18,7 @@ class UserCharacter(db.Model, SerializerMixin):
     character = db.relationship('Character', back_populates='user_characters')
     user = db.relationship('User', back_populates='user_characters')
     
-    serialize_only = ('id', 'character_id', 'user_id')
+    serialize_only = ('id', 'character.name', 'user.username')
     serialize_rules = ()
     
     def __repr__(self):
@@ -74,9 +74,25 @@ class Character(db.Model, SerializerMixin):
         return f'Character {self.id}, {self.name}'
 
 class Notebook(db.Model, SerializerMixin):
+    __tablename__ = 'notebooks'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    
+    character_id = db.Column(db.Integer, db.ForeignKey('characters.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    visible_boolean = db.Column(db.Boolean)
+    
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+    
+    character = db.relationship('Character', back_populates='user_characters')
+    user = db.relationship('User', back_populates='user_characters')
+    
+    serialize_only = ('id', 'character.name', 'user.username')
+    serialize_rules = ()
     
     def __repr__(self):
-        return f'Notebook {self.id}, {self.user_id}, {self.character_id}, {self.visible_boolean}'
+        return f'Notebook {self.id}, {self.character_id}, {self.user_id}, {self.visible_boolean}'
 
 class Interaction(db.Model, SerializerMixin):
     
