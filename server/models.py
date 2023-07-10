@@ -41,6 +41,18 @@ class User(db.Model, SerializerMixin):
     serialize_only = ('id', 'username', 'user_characters')
     serialize_rules = ('user_characters.id', 'user_characters.user_id')
     
+    @validates('username')
+    def validate_username(self, key, username):
+        if type(username) not in [str] or not range(4, 20):
+            raise ValueError('Username must be a string between 4 and 20 characters')
+        return username
+
+    @validates('password')
+    def validate_password(self, key, password):
+        if type(password) not in [str] or not range(5, 20):
+            raise ValueError('Password must be a string between 5 and 20 characters')
+        return password
+    
     def __repr__(self):
         return f'User {self.username}'
 
