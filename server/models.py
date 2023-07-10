@@ -72,3 +72,23 @@ class Character(db.Model, SerializerMixin):
     
     def __repr__(self):
         return f'Character {self.id}, {self.name}'
+
+class Notebook(db.Model, SerializerMixin):
+    
+    def __repr__(self):
+        return f'Notebook {self.id}, {self.user_id}, {self.character_id}, {self.visible_boolean}'
+
+class Interaction(db.Model, SerializerMixin):
+    
+    def __repr__(self):
+        return f'Interaction {self.id}, {self.user_id}, {self.visible_boolean}, {self.type}' #{self.matchup_id}
+
+class Note(db.Model, SerializerMixin):
+    
+    def __repr__(self):
+        return f'Note {self.id}, {self.interaction_id}' #might want to add a title to each note
+    
+class Clip(db.Model, SerializerMixin):
+    
+    def __repr__(self):
+        return f'Notebook {self.id}, {self.note_id}'
