@@ -43,3 +43,20 @@ class User(db.Model, SerializerMixin):
     
     def __repr__(self):
         return f'User {self.username}'
+
+class Character(db.Model, SerializerMixin):
+    __tablename__ = 'characters'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    
+    name = db.Column(db.String, unique=True)
+    icon = db.Column(db.String)
+    
+    user_characters = db.relationship('UserCharacter', back_populates='character', cascade='all')
+    users = association_proxy('user_characters', 'user')
+    
+    serialize_only = ('id', 'name')
+    serialize_rules = ()
+    
+    def __repr__(self):
+        return f'Character {self.id}, {self.name}'
