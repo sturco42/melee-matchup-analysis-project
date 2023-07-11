@@ -9,9 +9,52 @@ from models import db, UserCharacter, User, Character, Notebook, Interaction, No
 
 # Local imports
 from config import app, db, api
-# from models import iuahergiuher
 
 # Views go here!
+
+@app.route('/')
+def home():
+    return '<h1>Welcome to Melee Mentor</h1>'
+
+@app.route('/login', methods=['POST'])
+def login():
+    try:
+        user = User.query.filter_by(username=request.get_json().get('username')).first()
+        if user.authenticate(request.get_json().get('password')):
+            session['user_id'] = user.id
+            return make_response(user.to_dict(), 200)
+    except Exception as e:
+        return make_response({'error': str(e)}, 401)
+    
+@app.route('/authenticate', methods=['GET'])
+def get():
+    if session.get('user_id') and db.session.get(User, session['user_id']):
+        return make_response(db.session.get(User, session['user_id']).to_dict(), 200)
+    return make_response({'error': 'Unauthorized' }, 401)
+
+@app.route('/signup', methods=['POST'])
+def signup():
+    data = request.get_json()
+    username = data.get('username')
+    user = User(
+        username=username,
+        password_hash =data.get('password')
+    )
+    try:
+        db.session.add(user)
+        db.session.commit()
+        session['user_id'] = user.id
+        return make_response(user.to_dict(), 201)
+    except Exception as e:
+        return make_response({'error': str(e)}, 422)
+
+@app.route('/logout', methods=['DELETE'])
+def logout():
+    if session.get('user_id'):
+        session['user_id'] = None
+        return make_response({'message': 'Successfully Logged Out'}, 204)
+    return make_response({'error'})
+
 
 class UserCharacters(Resource):
     
@@ -85,12 +128,13 @@ class Users(Resource):
         data = request.get_json()
         try:
             new_user = User(**data)
+            # import ipdb; ipdb.set_trace()
             db.session.add(new_user)
             db.session.commit()
             session['user_id'] = new_user.id
             return make_response(new_user.to_dict(), 201)
-        except Exception:
-            return make_response({'errors': ['validation errors']}, 400)
+        except Exception as e:
+            return make_response({'errors': [str(e)]}, 400)
 
 api.add_resource(Users, '/users')
 

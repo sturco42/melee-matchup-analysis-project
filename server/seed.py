@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#! COMMENT CHANGE
+
 # Standard library imports
 from random import choice as rc
 import random
