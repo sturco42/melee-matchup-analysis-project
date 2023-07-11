@@ -4,6 +4,7 @@
 
 # server installs
 pipenv install faker
+pipenv install python-dotenv
 
 # Phase 4 Full-Stack Application Project Template
 

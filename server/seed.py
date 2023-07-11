@@ -2,6 +2,7 @@
 
 # Standard library imports
 from random import choice as rc
+import random
 
 # Remote library imports
 from faker import Faker
@@ -22,16 +23,6 @@ with app.app_context():
 fake = Faker()
 
 print("Starting seed...")
-
-def create_user_characters(users, characters):
-    user_characters = []
-    for _ in range(100):
-        user_character = UserCharacter(
-            user_id = [user.id for user in users],
-            character_id = rc([character.id for character in characters])
-        )
-        user_characters.append(user_character)
-    return user_characters
 
 def create_users():
     users = []
@@ -188,14 +179,26 @@ def create_characters():
         characters.append(character)
     return characters
 
-def create_notebooks(users, characters):
-    notebooks = []
-    for _ in range(100):
-        notebook = Notebook(
+def create_user_characters(users, characters):
+    user_characters = []
+    for _ in range(200):
+        user_character = UserCharacter(
             user_id = rc([user.id for user in users]),
             character_id = rc([character.id for character in characters])
         )
-        user_characters.append(notebook)
+        user_characters.append(user_character)
+    return user_characters
+
+def create_notebooks(users, characters):
+    notebooks = []
+    for _ in range(300):
+        result = random.choice([True, False])
+        notebook = Notebook(
+            user_id = rc([user.id for user in users]),
+            character_id = rc([character.id for character in characters]),
+            visible_boolean = result
+        )
+        notebooks.append(notebook)
     return notebooks
 
 #! unfinished
@@ -230,8 +233,8 @@ if __name__ == '__main__':
         Clip.query.delete()
         
         print('Creating users...')
-        user_characters = create_user_characters()
-        db.session.add_all(user_characters)
+        users = create_users()
+        db.session.add_all(users)
         db.session.commit()
         
         print('Creating characters...')
@@ -240,12 +243,12 @@ if __name__ == '__main__':
         db.session.commit()
         
         print('Adding mains...')
-        user_characters = create_user_characters()
+        user_characters = create_user_characters(users, characters)
         db.session.add_all(user_characters)
         db.session.commit()
         
         print('Creating notebooks...')
-        notebooks = create_notebooks()
+        notebooks = create_notebooks(users, characters)
         db.session.add_all(notebooks)
         db.session.commit()
         
