@@ -13,6 +13,50 @@ from config import app, db, api
 
 # Views go here!
 
+class UserCharacters(Resource):
+    
+    def get(self):
+        user_characters = [user_character.to_dict() for user_character in UserCharacter.query.all()]
+        return make_response(user_characters, 200)
+    
+    def post(self):
+        if 'user_id' in session:
+            try:
+                new_user_character = UserCharacter(
+                    user_id = session['user_id'],
+                    character_id = request.get_json()['id']
+                )
+                db.session.add(new_user_character)
+                db.session.commit()
+                return make_response('', 200)
+            except Exception as e:
+                return make_response({'error': str(e)}, 400)
+        return make_response({'error': 'Unauthorized' }, 401)
+
+api.add_resource(UserCharacters, '/user-characters')
+
+class UserCharacterById(Resource):
+    
+    def get(self, id):
+        user_character = db.session.get(UserCharacter, id)
+        if user_character:
+            return make_response(user_character.to_dict(), 200)
+        return make_response({'error': 'user_character must have a valid user and valid character'}, 404)
+    
+    def delete(self, id):
+        if 'user_id' not in session:
+            return make_response({'error': 'Unauthorized' }, 401)
+        try:
+            user_character = UserCharacter.query.filter_by(user_id = session.get('user_id'), character_id = id).first()
+            if not user_character:
+                return make_response({'error': 'Cannot find that character in your library'}, 404)
+            db.session.delete(user_character)
+            db.session.commit()
+            return make_response('', 204)
+        except Exception as e:
+            return make_response({'error': str(e)}, 422)
+api.add_resource(UserCharacterById, '/user-characters/<int:id>')
+
 class Characters(Resource):
     
     def get(self):
@@ -32,7 +76,7 @@ class CharacterById(Resource):
 api.add_resource(CharacterById, '/characters/<int:id>')
 
 class Users(Resource):
-    
+
     def get(self):
         users = [user.to_dict() for user in User.query.all()]
         return make_response(users, 200)
