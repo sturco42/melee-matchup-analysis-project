@@ -10,7 +10,7 @@ pip install flask
 pip install flask-bcrypt
 # not sure if one below is needed
 pipenv install python-dotenv
-
+https://morgvanny.com/securing-your-session-key-in-flask/
 
 # Phase 4 Full-Stack Application Project Template
 
