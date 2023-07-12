@@ -1,14 +1,9 @@
-#!/usr/bin/env python3
-
-# Standard library imports
 from random import choice as rc
 import random
 
-# Remote library imports
 from faker import Faker
 from flask import Flask
 
-# Local imports
 from app import app
 from models import db, UserCharacter, User, Character, Notebook, Interaction, Note, Clip
 
@@ -29,7 +24,7 @@ def create_users():
     for _ in range(100):
         user = User(
             username = fake.user_name(),
-            password = 'password',
+            password_hash = 'password',
             created_at = fake.date_time(),
             updated_at = fake.date_time()
         )

@@ -4,7 +4,10 @@
 
 # server installs
 pipenv install faker
+pip install faker
 
+pip install flask
+pip install flask-bcrypt
 # not sure if one below is needed
 pipenv install python-dotenv
 

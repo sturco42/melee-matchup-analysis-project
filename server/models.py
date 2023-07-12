@@ -1,7 +1,8 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
-from config import db
+from config import db, bcrypt
+from sqlalchemy.ext.hybrid import hybrid_property
 
 class UserCharacter(db.Model, SerializerMixin):
     __tablename__ = 'user_characters'
@@ -29,7 +30,7 @@ class User(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     
     username = db.Column(db.String, unique=True)
-    password = db.Column(db.String)
+    _password_hash = db.Column(db.String)
     
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
@@ -42,6 +43,21 @@ class User(db.Model, SerializerMixin):
     
     serialize_only = ('id', 'username', 'user_characters')
     serialize_rules = ('user_characters.id', 'user_characters.user_id')
+    
+# User Password_Hash
+    @hybrid_property
+    def password_hash(self):
+        return self._password_hash
+
+# User Password_Hash Setter
+    @password_hash.setter
+    def password_hash(self, password):
+        password_hash = bcrypt.generate_password_hash(password.encode('utf-8'))
+        self._password_hash = password_hash.decode('utf-8')
+
+# User Password_Hash Authentication
+    def authenticate(self, password):
+        return bcrypt.check_password_hash(self.password_hash, password.encode('utf-8'))
     
     @validates('username')
     def validate_username(self, key, username):

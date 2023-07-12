@@ -1,16 +1,12 @@
-#!/usr/bin/env python3
-
-# Standard library imports
-
-# Remote library imports
 from flask import Flask, request, make_response, session
 from flask_restful import Resource
+
+from flask_migrate import Migrate
+from flask_restful import Api
+
 from models import db, UserCharacter, User, Character, Notebook, Interaction, Note, Clip
 
-# Local imports
 from config import app, db, api
-
-# Views go here!
 
 @app.route('/')
 def home():
@@ -38,7 +34,7 @@ def signup():
     username = data.get('username')
     user = User(
         username=username,
-        password_hash =data.get('password')
+        _password_hash =data.get('password')
     )
     try:
         db.session.add(user)
@@ -54,7 +50,6 @@ def logout():
         session['user_id'] = None
         return make_response({'message': 'Successfully Logged Out'}, 204)
     return make_response({'error'})
-
 
 class UserCharacters(Resource):
     
