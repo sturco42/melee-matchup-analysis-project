@@ -54,8 +54,8 @@ def logout():
 class UserCharacters(Resource):
     
     def get(self):
-        user_characters = [user_character.to_dict() for user_character in UserCharacter.query.all()]
-        return make_response(user_characters, 200)
+        notebooks = [user_character.to_dict() for user_character in UserCharacter.query.all()]
+        return make_response(notebooks, 200)
     
     def post(self):
         if 'user_id' in session:
@@ -93,6 +93,7 @@ class UserCharacterById(Resource):
             return make_response('', 204)
         except Exception as e:
             return make_response({'error': str(e)}, 422)
+        
 api.add_resource(UserCharacterById, '/user-characters/<int:id>')
 
 class Characters(Resource):
@@ -165,6 +166,51 @@ class UserById(Resource):
             return make_response({'error': str(e)}, 422)
 
 api.add_resource(UserById, '/users/<int:id>')
+
+class Notebooks(Resource):
+    
+    def get(self):
+        notebooks = [notebook.to_dict() for notebook in Notebook.query.all()]
+        return make_response(notebooks, 200)
+    
+    def post(self):
+        if 'user_id' in session:
+            try:
+                new_notebook = Notebook(
+                    user_id = session['user_id'],
+                    character_id = request.get_json()['id']
+                )
+                db.session.add(new_notebook)
+                db.session.commit()
+                return make_response('', 200)
+            except Exception as e:
+                return make_response({'error': str(e)}, 400)
+        return make_response({'error': 'Unauthorized' }, 401)
+
+api.add_resource(Notebooks, '/notebooks')
+
+class NotebookById(Resource):
+    
+    def get(self, id):
+        notebook = db.session.get(Notebook, id)
+        if notebook:
+            return make_response(notebook.to_dict(), 200)
+        return make_response({'error': 'notebook must have a valid user and valid character'}, 404)
+    
+    def delete(self, id):
+        if 'user_id' not in session:
+            return make_response({'error': 'Unauthorized' }, 401)
+        try:
+            notebook = Notebook.query.filter_by(user_id = session.get('user_id'), character_id = id).first()
+            if not notebook:
+                return make_response({'error': 'Cannot find that notebook'}, 404)
+            db.session.delete(notebook)
+            db.session.commit()
+            return make_response('', 204)
+        except Exception as e:
+            return make_response({'error': str(e)}, 422)
+        
+api.add_resource(NotebookById, '/notebooks/<int:id>')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
