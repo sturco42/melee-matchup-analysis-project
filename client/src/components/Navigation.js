@@ -1,19 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { Menu, Container } from 'semantic-ui-react'
 
 const Navigation = ({ user, handleLogoutClick }) => {
-
     const location = useLocation();
-    const [active, setActive] = useState('')
 
     useEffect(() => {
-        setActive(location.pathname.slice(1))
     }, [location]);
-
-    const handleClick = (e, { name }) => {
-        setActive(name);
-    }
 
     return (
         <Container>
@@ -23,36 +16,34 @@ const Navigation = ({ user, handleLogoutClick }) => {
                         as={NavLink}
                         to='/'
                         name='Home'
-                        active={active === 'home'}
-                        onClick={handleClick}
-                    />
-                    {!user ? (
-                        <Menu.Item
-                        as={NavLink}
                         exact
-                        to='/notebooks'
-                        name='Your Notebooks'
-                        active={active === 'notebooks'}
-                        onClick={handleClick}
+                        active={location.pathname === '/'}
+                    />
+                    {user ? (
+                        <Menu.Item
+                            as={NavLink}
+                            to='/notebooks'
+                            name='Notebooks'
+                            exact
+                            active={location.pathname === '/notebooks'}
                         />
                     ) : null}
                     {!user ? (
                         <Menu.Item
-                        as={NavLink}
-                        exact
-                        to='/login'
-                        name='Login'
-                        active={active === 'login'}
-                        onClick={handleClick}
+                            as={NavLink}
+                            to='/login'
+                            name='Login'
+                            exact
+                            active={location.pathname === '/login'}
                         />
                     ) : (
                         <Menu.Item
-                        as={NavLink}
-                        exact
-                        to='/logout'
-                        name='Logout'
-                        active={active === 'logout'}
-                        onClick={handleLogoutClick}
+                            as={NavLink}
+                            to='/logout'
+                            name='Logout'
+                            exact
+                            onClick={handleLogoutClick}
+                            active={location.pathname === '/logout'}
                         />
                     )}
                 </Menu.Menu>

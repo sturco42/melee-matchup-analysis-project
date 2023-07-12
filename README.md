@@ -3,6 +3,7 @@
 # client installs
 npm install react-scripts
 npm install semantic-ui-css
+npm install semantic-ui-react
 # server installs
 pipenv install faker
 pip install faker

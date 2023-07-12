@@ -3,7 +3,6 @@
 const Account = () => {
     return (
         <div>
-            login / logout
         </div>
     )
 }
