@@ -18,7 +18,7 @@ class UserCharacter(db.Model, SerializerMixin):
     character = db.relationship('Character', back_populates='user_characters')
     user = db.relationship('User', back_populates='user_characters')
     
-    serialize_only = ('id', 'character.name', 'user.username')
+    serialize_only = ('id', 'character.name', 'user_id')
     serialize_rules = ()
     
     def __repr__(self):
@@ -36,26 +36,23 @@ class User(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
     
     user_characters = db.relationship('UserCharacter', back_populates='user', cascade='all')
-    characters = association_proxy('user_characters', 'character')
+    characters = association_proxy('-user_characters.id', '-user_characters.user_id')
     
     #! new
     notebooks = db.relationship('Notebook', back_populates='user')
     
     serialize_only = ('id', 'username', 'user_characters')
-    serialize_rules = ('user_characters.id', 'user_characters.user_id')
-    
-# User Password_Hash
+    # serialize_rules = ('user_characters.id', 'user_characters.user_id')
+
     @hybrid_property
     def password_hash(self):
         return self._password_hash
 
-# User Password_Hash Setter
     @password_hash.setter
     def password_hash(self, password):
         password_hash = bcrypt.generate_password_hash(password.encode('utf-8'))
         self._password_hash = password_hash.decode('utf-8')
 
-# User Password_Hash Authentication
     def authenticate(self, password):
         return bcrypt.check_password_hash(self.password_hash, password.encode('utf-8'))
     
