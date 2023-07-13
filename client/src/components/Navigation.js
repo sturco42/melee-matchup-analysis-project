@@ -12,22 +12,6 @@ const Navigation = ({ user, handleLogoutClick }) => {
         <Container>
             <Menu>
                 <Menu.Menu>
-                    <Menu.Item 
-                        as={NavLink}
-                        to='/'
-                        name='Home'
-                        exact
-                        active={location.pathname === '/'}
-                    />
-                    {user ? (
-                        <Menu.Item
-                            as={NavLink}
-                            to='/notebooks'
-                            name='Notebooks'
-                            exact
-                            active={location.pathname === '/notebooks'}
-                        />
-                    ) : null}
                     {!user ? (
                         <Menu.Item
                             as={NavLink}
@@ -46,6 +30,29 @@ const Navigation = ({ user, handleLogoutClick }) => {
                             active={location.pathname === '/logout'}
                         />
                     )}
+                    <Menu.Item 
+                        as={NavLink}
+                        to='/'
+                        name='Home'
+                        exact
+                        active={location.pathname === '/'}
+                    />
+                    <Menu.Item 
+                        as={NavLink}
+                        to='/contact-us'
+                        name='Contact Us'
+                        exact
+                        active={location.pathname === '/'}
+                    />
+                    {user ? (
+                        <Menu.Item
+                            as={NavLink}
+                            to='/notebooks'
+                            name='Notebooks'
+                            exact
+                            active={location.pathname === '/notebooks'}
+                        />
+                    ) : null}
                 </Menu.Menu>
             </Menu>
         </Container>
