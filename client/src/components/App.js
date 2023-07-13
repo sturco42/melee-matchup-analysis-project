@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Navigation from './Navigation'
-import Account from './Account'
+import Profile from './Profile'
 
 function App() {
   // Code goes here!
@@ -10,8 +10,10 @@ function App() {
       <div>
         Hello World
       </div>
-      <Account />
       <Navigation />
+      <Switch>
+
+      </Switch>
     </>
   )
 }

@@ -1,10 +1,10 @@
 // imports
 
-const Account = () => {
+const Profile = () => {
     return (
         <div>
         </div>
     )
 }
 
-export default Account
+export default Profile

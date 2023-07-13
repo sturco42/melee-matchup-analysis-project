@@ -8,10 +8,25 @@ const Navigation = ({ user, handleLogoutClick }) => {
     useEffect(() => {
     }, [location]);
 
+    const activeUserId = (pathname) => {
+        const parts = pathname.split('/');
+        if (parts.length === 3 && parts[1] === 'notebooks') {
+            return parseInt(parts[2]);
+        }
+        return null;
+    };
+    
     return (
         <Container>
             <Menu>
                 <Menu.Menu>
+                    <Menu.Item 
+                        as={NavLink}
+                        to='/'
+                        name='Home'
+                        exact
+                        active={location.pathname === '/'}
+                    />
                     {!user ? (
                         <Menu.Item
                             as={NavLink}
@@ -30,20 +45,15 @@ const Navigation = ({ user, handleLogoutClick }) => {
                             active={location.pathname === '/logout'}
                         />
                     )}
-                    <Menu.Item 
-                        as={NavLink}
-                        to='/'
-                        name='Home'
-                        exact
-                        active={location.pathname === '/'}
-                    />
-                    <Menu.Item 
-                        as={NavLink}
-                        to='/contact-us'
-                        name='Contact Us'
-                        exact
-                        active={location.pathname === '/'}
-                    />
+                    {user ? (
+                        <Menu.Item
+                            as={NavLink}
+                            to={`/users/${user.id}`}
+                            name='Profile'
+                            exact
+                            active={activeUserId === user.id}
+                        />
+                    ) : null}
                     {user ? (
                         <Menu.Item
                             as={NavLink}
@@ -53,6 +63,13 @@ const Navigation = ({ user, handleLogoutClick }) => {
                             active={location.pathname === '/notebooks'}
                         />
                     ) : null}
+                    <Menu.Item 
+                        as={NavLink}
+                        to='/contact-us'
+                        name='Contact Us'
+                        exact
+                        active={location.pathname === '/'}
+                    />
                 </Menu.Menu>
             </Menu>
         </Container>
