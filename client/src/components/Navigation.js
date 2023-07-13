@@ -68,7 +68,7 @@ const Navigation = ({ user, handleLogoutClick }) => {
                         to='/contact-us'
                         name='Contact Us'
                         exact
-                        active={location.pathname === '/'}
+                        active={location.pathname === '/contact-us'}
                     />
                 </Menu.Menu>
             </Menu>

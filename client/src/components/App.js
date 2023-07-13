@@ -1,10 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import Navigation from './Navigation'
 import Profile from './Profile'
+import Authentication from './Authentication';
 
 function App() {
   const [user, setUser] = useState(null)
+  const [characters, setCharacters] = useState(null)
+
+  const history = useHistory()
+
+  //! will be used to set mains for users
+  useEffect(() => {
+    fetch('/characters')
+      .then((res) => res.json())
+      .then(setCharacters)
+      .catch((err) => console.log(err));
+  }, []);
 
   const updateUser = (user) => {
     setUser(user);
@@ -38,12 +50,37 @@ function App() {
       })
   }
 
+  //! will be used to logout
+  function handleLogoutClick() {
+    fetch('/logout', { method: 'DELETE' })
+      .then((res) => {
+        if (res.ok) {
+          updateUser(null);
+          history.push('/authentication');
+        }
+      });
+  }
+
+  useEffect(() => {
+    const fetchUser = () => {
+      fetch('/authenticate')
+        .then((res) => {
+          if (res.ok) {
+            res.json().then(updateUser)
+          } else {
+            setUser(null)
+          }
+        })
+    };
+    fetchUser()
+  }, [])
+
   return (
     <>
       <div>
         Hello World
       </div>
-      <Navigation />
+      <Navigation handleLogoutClick={handleLogoutClick}/>
       <Switch>
         <Route exact path='/user/:id' >
           <Profile
@@ -51,6 +88,9 @@ function App() {
             updateUser={updateUser}
             deleteUser={deleteUser}
           />
+        </Route>
+        <Route exact path='/login'>
+          <Authentication />
         </Route>
       </Switch>
     </>

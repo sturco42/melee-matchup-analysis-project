@@ -1,8 +1,9 @@
 from flask import Flask, request, make_response, session
 from flask_restful import Resource
 
-from flask_migrate import Migrate
-from flask_restful import Api
+#! are these even needed?
+# from flask_migrate import Migrate
+# from flask_restful import Api
 
 from models import db, UserCharacter, User, Character, Notebook, Interaction, Note, Clip
 
@@ -17,16 +18,6 @@ def get():
     if session.get('user_id') and db.session.get(User, session['user_id']):
         return make_response(db.session.get(User, session['user_id']).to_dict(), 200)
     return make_response({'error': 'Unauthorized' }, 401)
-
-@app.route('/login', methods=['POST'])
-def login():
-    try:
-        user = User.query.filter_by(username=request.get_json().get('username')).first()
-        if user.authenticate(request.get_json().get('password')):
-            session['user_id'] = user.id
-            return make_response(user.to_dict(), 200)
-    except Exception as e:
-        return make_response({'error': str(e)}, 401)
 
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -43,6 +34,16 @@ def signup():
         return make_response(user.to_dict(), 201)
     except Exception as e:
         return make_response({'error': str(e)}, 422)
+
+@app.route('/login', methods=['POST'])
+def login():
+    try:
+        user = User.query.filter_by(username=request.get_json().get('username')).first()
+        if user.authenticate(request.get_json().get('password')):
+            session['user_id'] = user.id
+            return make_response(user.to_dict(), 200)
+    except Exception as e:
+        return make_response({'error': str(e)}, 401)
 
 @app.route('/logout', methods=['DELETE'])
 def logout():
