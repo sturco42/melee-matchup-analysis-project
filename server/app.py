@@ -12,6 +12,12 @@ from config import app, db, api
 def home():
     return '<h1>Welcome to Melee Mentor</h1>'
 
+@app.route('/authenticate', methods=['GET'])
+def get():
+    if session.get('user_id') and db.session.get(User, session['user_id']):
+        return make_response(db.session.get(User, session['user_id']).to_dict(), 200)
+    return make_response({'error': 'Unauthorized' }, 401)
+
 @app.route('/login', methods=['POST'])
 def login():
     try:
@@ -21,12 +27,6 @@ def login():
             return make_response(user.to_dict(), 200)
     except Exception as e:
         return make_response({'error': str(e)}, 401)
-    
-@app.route('/authenticate', methods=['GET'])
-def get():
-    if session.get('user_id') and db.session.get(User, session['user_id']):
-        return make_response(db.session.get(User, session['user_id']).to_dict(), 200)
-    return make_response({'error': 'Unauthorized' }, 401)
 
 @app.route('/signup', methods=['POST'])
 def signup():
