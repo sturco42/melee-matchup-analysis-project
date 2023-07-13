@@ -3,6 +3,7 @@ import { Switch, Route, useHistory } from 'react-router-dom';
 import Navigation from './Navigation'
 import Profile from './Profile'
 import Authentication from './Authentication';
+import Home from './Home'
 
 function App() {
   const [user, setUser] = useState(null)
@@ -82,6 +83,9 @@ function App() {
       </div>
       <Navigation handleLogoutClick={handleLogoutClick}/>
       <Switch>
+        <Route exact path='/'>
+          <Home/>
+        </Route>
         <Route exact path='/user/:id' >
           <Profile
             user={user}
