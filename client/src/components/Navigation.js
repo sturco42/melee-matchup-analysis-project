@@ -9,12 +9,12 @@ const Navigation = ({ user, handleLogoutClick }) => {
     }, [location]);
 
     const activeUserId = (pathname) => {
-        const parts = pathname.split('/');
+        const parts = pathname.split('/')
         if (parts.length === 3 && parts[1] === 'notebooks') {
-            return parseInt(parts[2]);
+            return parseInt(parts[2])
         }
-        return null;
-    };
+        return null
+    }
     
     return (
         <Container>

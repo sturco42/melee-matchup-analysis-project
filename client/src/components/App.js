@@ -4,7 +4,8 @@ import Navigation from './Navigation'
 import Profile from './Profile'
 
 function App() {
-  // Code goes here!
+  
+  
   return (
     <>
       <div>
@@ -12,7 +13,13 @@ function App() {
       </div>
       <Navigation />
       <Switch>
-
+        <Route exact path='/user/:id' >
+          <Profile
+            user={user}
+            updateUser={updateUser}
+            deleteUser={deleteUser}
+          />
+        </Route>
       </Switch>
     </>
   )
