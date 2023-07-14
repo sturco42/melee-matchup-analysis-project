@@ -3,14 +3,14 @@ import * as yup from 'yup';
 import { useHistory } from 'react-router-dom';
 import { Form, Button, Message } from 'semantic-ui-react';
 
-const UpdateUserForm = ({ updateUser, user }) => {
+const UpdateUserForm = ({ updateUser, user, toggleForm }) => {
   const history = useHistory();
 
   const updateSchema = yup.object().shape({
     username: yup
       .string()
       .required()
-      .min(8, 'Too Short!')
+      .min(4, 'Too Short!')
       .max(18, 'Too Long!'),
     password: yup
       .string()
@@ -40,6 +40,7 @@ const UpdateUserForm = ({ updateUser, user }) => {
             res.json().then((user) => {
               updateUser(user)
               alert('Successfully updated your account!')
+              toggleForm()
               resetForm({})
               history.push('/users/:id')
             });

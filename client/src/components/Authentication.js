@@ -17,7 +17,7 @@ const Authentication = ({ user, updateUser }) => {
           .string()
           .required('Username Required')
           .min(4, 'Must be at least 4 characters')
-          .max(30, 'Cannot exceed 30 characters'),
+          .max(18, 'Cannot exceed 18 characters'),
         password: yup
           .string()
           .required('Password Required')
@@ -45,7 +45,7 @@ const Authentication = ({ user, updateUser }) => {
                 const data = await response.json();
                 updateUser(data)
                 resetForm()
-                history.push('/profile')
+                history.push('/users/:id')
               } else {
                 const errorData = await response.json();
                 setErrors([errorData.error])
