@@ -42,16 +42,15 @@ function App() {
       .then((res) => {
         if (res.ok) {
           removeUser(user)
-          setUser(null)
           alert('Successfully deleted user')
           history.push('/login')
+          setUser(null)
         } else {
           alert('Something went wrong')
         }
       })
   }
 
-  //! will be used to logout
   function handleLogoutClick() {
     fetch('/logout', { method: 'DELETE' })
       .then((res) => {
@@ -83,7 +82,7 @@ function App() {
         <Route exact path='/'>
           <Home/>
         </Route>
-        <Route exact path='/user/:id' >
+        <Route exact path='/users/:id' >
           <Profile
             user={user}
             updateUser={updateUser}
@@ -91,7 +90,7 @@ function App() {
           />
         </Route>
         <Route exact path='/login'>
-          <Authentication updateUser={updateUser}/>
+          <Authentication user={user} updateUser={updateUser}/>
         </Route>
       </Switch>
     </>

@@ -4,7 +4,7 @@ import { useFormik } from 'formik'
 import { Form, Button, Message, Card } from 'semantic-ui-react'
 import * as yup from 'yup'
 
-const Authentication = ({ updateUser }) => {
+const Authentication = ({ user, updateUser }) => {
     const [signUp, setSignUp] = useState(false)
     const [errors, setErrors] = useState([])
 
@@ -43,26 +43,28 @@ const Authentication = ({ updateUser }) => {
         
               if (response.ok) {
                 const data = await response.json();
-                updateUser(data);
-                resetForm();
-                history.push('/profile');
+                updateUser(data)
+                resetForm()
+                history.push('/profile')
               } else {
                 const errorData = await response.json();
-                setErrors([errorData.error]);
+                setErrors([errorData.error])
               }
             } catch (error) {
-              console.log(error);
+              console.log(error)
             }
           },
-        });
+        })
 
       return (
         <div>
             <Card>
                 <Card.Content>
+                    {user ? null :
                     <Card.Header>
                         {signUp ? 'Sign Up' : 'Login'} to continue!
                     </Card.Header>
+                    }
                     <Card.Description>
                         <Form onSubmit={formik.handleSubmit}>
                             <Form.Field>
@@ -97,10 +99,13 @@ const Authentication = ({ updateUser }) => {
                                 />
                                 {formik.errors.password && formik.touched.password && (<Message negative content={formik.errors.password} />)}
                             </Form.Field>
-                        </Form>
+                            {user ? 
+                            <Button type='submit'>Update</Button> : 
                             <Button type='submit'>
                                 {signUp ? 'Sign Up' : 'Login'}
                             </Button>
+                            }
+                        </Form>
                         {errors.length > 0 && (
                             <Message negative>
                             <Message.Header>Error Occurred:</Message.Header>
@@ -114,9 +119,10 @@ const Authentication = ({ updateUser }) => {
                     </Card.Description>
                 </Card.Content>
                 <Card.Content>
-                    <Button onClick={handleClick} >
+                    {user ? null : <Button onClick={handleClick} >{signUp ? 'Login' : 'Create an Account'}</Button>}
+                    {/* <Button onClick={handleClick} >
                         {signUp ? 'Login' : 'Create an Account'}
-                    </Button>
+                    </Button> */}
                 </Card.Content>
             </Card>
         </div>
