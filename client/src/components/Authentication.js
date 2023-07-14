@@ -31,28 +31,30 @@ const Authentication = ({ updateUser }) => {
           password: '',
         },
         validationSchema: formSchema,
-        onSubmit: (values, { resetForm }) => {
-          fetch(signUp ? '/signup' : '/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(values),
-          })
-            .then((res) => {
-              if (res.ok) {
-                res.json().then((res) => {
-                  updateUser(res)
-                  resetForm()
-                  history.push('/profile')
-                })
+        onSubmit: async (values, { resetForm }) => {
+            try {
+              const response = await fetch(signUp ? '/signup' : '/login', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
+              });
+        
+              if (response.ok) {
+                const data = await response.json();
+                updateUser(data);
+                resetForm();
+                history.push('/profile');
               } else {
-                res.json().then((error) => setErrors([error.message]))
+                const errorData = await response.json();
+                setErrors([errorData.error]);
               }
-            })
-            .catch((error) => console.log(error))
-        },
-      })
+            } catch (error) {
+              console.log(error);
+            }
+          },
+        });
 
       return (
         <div>
@@ -95,18 +97,18 @@ const Authentication = ({ updateUser }) => {
                                 />
                                 {formik.errors.password && formik.touched.password && (<Message negative content={formik.errors.password} />)}
                             </Form.Field>
+                        </Form>
                             <Button type='submit'>
                                 {signUp ? 'Sign Up' : 'Login'}
                             </Button>
-                        </Form>
                         {errors.length > 0 && (
                             <Message negative>
                             <Message.Header>Error Occurred:</Message.Header>
-                            <Message.List>
-                                {errors.map((error, index) => (
-                                <Message.Item key={index}>Please enter valid credentials</Message.Item>
-                                ))}
-                            </Message.List>
+                                <Message.List>
+                                    {errors.map((error, index) => (
+                                        <Message.Item key={index}>{error}</Message.Item>
+                                    ))}
+                                </Message.List>
                             </Message>
                         )}
                     </Card.Description>

@@ -1,9 +1,6 @@
 from flask import Flask, request, make_response, session
 from flask_restful import Resource
-
-#! are these even needed?
-# from flask_migrate import Migrate
-# from flask_restful import Api
+import bcrypt
 
 from models import db, UserCharacter, User, Character, Notebook, Interaction, Note, Clip
 
@@ -21,25 +18,32 @@ def get():
 
 @app.route('/signup', methods=['POST'])
 def signup():
-    data = request.get_json()
-    username = data.get('username')
-    user = User(
-        username=username,
-        password_hash=data.get('password')
-    )
     try:
+        username = request.get_json().get('username')
+        password = request.get_json().get('password')
+        salt = bcrypt.gensalt()
+        print(type(password))
+        # import ipdb; ipdb.set_trace()
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
+        print(hashed_password)
+        user = User(
+            username=username,
+            password_hash=hashed_password
+        )
         db.session.add(user)
         db.session.commit()
         session['user_id'] = user.id
-        return make_response(user.to_dict(), 201)
+        return make_response({'message': 'User signup successful'}, 201)
     except Exception as e:
-        return make_response({'error': str(e)}, 422)
+        return make_response({'error': str(e)}, 500)
 
 @app.route('/login', methods=['POST'])
 def login():
     try:
-        user = User.query.filter_by(username=request.get_json().get('username')).first()
-        if user.authenticate(request.get_json().get('password')):
+        username = request.get_json().get('username')
+        password = request.get_json().get('password')
+        user = User.query.filter_by(username=username).first()
+        if user and bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8')):
             session['user_id'] = user.id
             return make_response(user.to_dict(), 200)
     except Exception as e:

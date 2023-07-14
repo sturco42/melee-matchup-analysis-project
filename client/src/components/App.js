@@ -12,12 +12,12 @@ function App() {
   const history = useHistory()
 
   //! will be used to set mains for users ???
-  useEffect(() => {
-    fetch('/characters')
-      .then((res) => res.json())
-      .then(setCharacters)
-      .catch((err) => console.log(err));
-  }, []);
+  // useEffect(() => {
+  //   fetch('/characters')
+  //     .then((res) => res.json())
+  //     .then(setCharacters)
+  //     .catch((err) => console.log(err));
+  // }, []);
 
   const updateUser = (user) => {
     setUser(user);
@@ -78,7 +78,7 @@ function App() {
 
   return (
     <>
-      <Navigation handleLogoutClick={handleLogoutClick}/>
+      <Navigation handleLogoutClick={handleLogoutClick} user={user} />
       <Switch>
         <Route exact path='/'>
           <Home/>
