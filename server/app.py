@@ -25,7 +25,7 @@ def signup():
     username = data.get('username')
     user = User(
         username=username,
-        _password_hash =data.get('password')
+        password_hash=data.get('password')
     )
     try:
         db.session.add(user)

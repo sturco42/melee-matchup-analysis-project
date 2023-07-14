@@ -44,7 +44,7 @@ const Authentication = ({ updateUser }) => {
                 res.json().then((res) => {
                   updateUser(res)
                   resetForm()
-                  history.push('/')
+                  history.push('/profile')
                 })
               } else {
                 res.json().then((error) => setErrors([error.message]))
@@ -62,7 +62,7 @@ const Authentication = ({ updateUser }) => {
                         {signUp ? 'Sign Up' : 'Login'} to continue!
                     </Card.Header>
                     <Card.Description>
-                        <Form onSubmit={formik.handleClick}>
+                        <Form onSubmit={formik.handleSubmit}>
                             <Form.Field>
                                 <label>Username:</label>
                                 <input
@@ -104,7 +104,7 @@ const Authentication = ({ updateUser }) => {
                             <Message.Header>Error Occurred:</Message.Header>
                             <Message.List>
                                 {errors.map((error, index) => (
-                                <Message.Item key={index}>{error}</Message.Item>
+                                <Message.Item key={index}>Please enter valid credentials</Message.Item>
                                 ))}
                             </Message.List>
                             </Message>

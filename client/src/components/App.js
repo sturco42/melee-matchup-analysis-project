@@ -11,7 +11,7 @@ function App() {
 
   const history = useHistory()
 
-  //! will be used to set mains for users
+  //! will be used to set mains for users ???
   useEffect(() => {
     fetch('/characters')
       .then((res) => res.json())
@@ -43,7 +43,7 @@ function App() {
         if (res.ok) {
           removeUser(user)
           setUser(null)
-          alert('Successfully Deleted User')
+          alert('Successfully deleted user')
           history.push('/login')
         } else {
           alert('Something went wrong')
@@ -78,9 +78,6 @@ function App() {
 
   return (
     <>
-      <div>
-        Hello World
-      </div>
       <Navigation handleLogoutClick={handleLogoutClick}/>
       <Switch>
         <Route exact path='/'>
@@ -94,7 +91,7 @@ function App() {
           />
         </Route>
         <Route exact path='/login'>
-          <Authentication />
+          <Authentication updateUser={updateUser}/>
         </Route>
       </Switch>
     </>
