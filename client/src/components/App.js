@@ -1,3 +1,5 @@
+//! MAKE SURE ITS WORKING
+
 import React, { useEffect, useState } from 'react';
 import { Switch, Route, useHistory } from 'react-router-dom';
 import Navigation from './Navigation'
