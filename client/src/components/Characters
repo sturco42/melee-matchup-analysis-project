@@ -1,0 +1,22 @@
+import React, { useState, useEffect } from 'react'
+import { Card, Button, Container } from 'semantic-ui-react'
+import CharCardCard from './CharCard'
+import { useHistory } from 'react-router-dom'
+
+
+const Characters = ( {charsToDisplay} ) => {
+    const [chars, setChars] = useState([])
+    const history = useHistory()
+}
+
+
+useEffect(() => {
+    fetch('/characters')
+      .then((res) => res.json())
+      .then(setCharacters)
+      .catch((err) => console.log(err));
+  }, []);
+
+  const mappedChars = charsToDisplay.map((char) => {
+    <CharCard key={char.id} {...char} />
+  })
