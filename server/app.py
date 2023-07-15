@@ -43,7 +43,7 @@ def login():
         username = request.get_json().get('username')
         password = request.get_json().get('password')
         user = User.query.filter_by(username=username).first()
-        if user and bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8')):
+        if user and bcrypt.checkpw(password.encode('utf-8'), user.password_hash):
             session['user_id'] = user.id
             return make_response(user.to_dict(), 200)
     except Exception as e:

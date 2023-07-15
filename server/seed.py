@@ -7,6 +7,8 @@ from flask import Flask
 from app import app
 from models import db, UserCharacter, User, Character, Notebook, Interaction, Note, Clip
 
+import bcrypt
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 
@@ -22,9 +24,12 @@ print("Starting seed...")
 def create_users():
     users = []
     for _ in range(100):
+        salt = bcrypt.gensalt()
+        password = 'password'
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
         user = User(
             username = fake.user_name(),
-            password_hash = 'password',
+            password_hash = hashed_password,
             created_at = fake.date_time(),
             updated_at = fake.date_time()
         )
