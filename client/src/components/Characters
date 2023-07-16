@@ -1,22 +1,47 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Button, Container } from 'semantic-ui-react'
-import CharCardCard from './CharCard'
+import CharCard from './CharCard'
 import { useHistory } from 'react-router-dom'
+import { Card, Button, Container } from 'semantic-ui-react'
 
-
-const Characters = ( {charsToDisplay} ) => {
+const Characters = ( {charsToDisplay, user, addUserChar, removeUserChar} ) => {
     const [chars, setChars] = useState([])
     const history = useHistory()
+
+    useEffect(() => {
+        fetch('/characters')
+          .then((res) => res.json())
+          .then(setChars)
+          .catch((err) => console.log(err));
+      }, []);
+    
+      const mappedChars = charsToDisplay.map((char) => {
+        <CharCard key={char.id} {...char} />
+      })
+
+      return (
+        <Container >
+            <Card.Group>
+                {mappedChars.map((char) => {
+                    <Card
+                        fluid
+                        key={char.props.id}
+                        href={`/characters/${char.props.id}`}
+                        // className=''
+                        // style={{}}
+                        onClick={(e) => {
+                            e.preventDefault()
+                            history.push(`/chars/${char.props.id}`)
+                        }}
+                        >
+                        <Card.Content>
+                            <Card.Header>{char.props.name}</Card.Header>
+                            {/* <Card.Description>{char.props.icon}</Card.Description> */}
+                        </Card.Content>
+                    </Card>
+                })}
+            </Card.Group>
+        </Container>
+      )
 }
 
-
-useEffect(() => {
-    fetch('/characters')
-      .then((res) => res.json())
-      .then(setCharacters)
-      .catch((err) => console.log(err));
-  }, []);
-
-  const mappedChars = charsToDisplay.map((char) => {
-    <CharCard key={char.id} {...char} />
-  })
+export default Characters

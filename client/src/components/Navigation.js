@@ -63,6 +63,15 @@ const Navigation = ({ user, handleLogoutClick }) => {
                             active={location.pathname === '/notebooks'}
                         />
                     ) : null}
+                    {user ? (
+                        <Menu.Item
+                            as={NavLink}
+                            to={'/characters/'}
+                            name='Characters'
+                            exact
+                            active={location.pathname === '/characters'}
+                        />
+                    ) : null}
                     <Menu.Item 
                         as={NavLink}
                         to='/contact-us'

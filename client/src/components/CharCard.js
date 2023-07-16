@@ -1,8 +1,11 @@
+import React from 'react'
+import { Link } from 'react-router-dom'
 
-const CharCard = () => {
+const CharCard = ( {id, name, icon} ) => {
     return (
         <div>
-            char name
+            {/* will change name to icon when that logic and info is added in backend */}
+            <Link to={`/characters/${id}`}>{name}</Link>
         </div>
     )
 }
