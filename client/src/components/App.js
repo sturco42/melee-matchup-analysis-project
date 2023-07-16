@@ -7,10 +7,11 @@ import Home from './Home'
 import SearchChars from './SearchChars'
 import Characters from './Characters'
 // import CharCard from './CharCard'
+import ContactUs from './ContactUs'
 
 function App() {
   const [user, setUser] = useState(null)
-  const [chars, setChars] = useState(null)
+  const [chars, setChars] = useState([])
   const [searchChar, setSearchChar] = useState('')
   const history = useHistory()
 
@@ -19,13 +20,13 @@ function App() {
     fetch('/characters')
       .then((res) => res.json())
       .then(setChars)
-      .catch((err) => console.log(err));
-  }, []);
+      .catch((err) => console.log(err))
+  }, [])
 
   const charsToDisplay = chars.filter((char) => (
     char.name.toLowerCase().includes(searchChar.toLowerCase())
   ))
-  
+
   const onSearch = (input) => {
     setSearchChar(input)
   }

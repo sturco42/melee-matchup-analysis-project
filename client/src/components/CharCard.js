@@ -5,7 +5,8 @@ const CharCard = ( {id, name, icon} ) => {
     return (
         <div>
             {/* will change name to icon when that logic and info is added in backend */}
-            <Link to={`/characters/${id}`}>{name}</Link>
+            {/* <Link to={`/characters/${id}`}>{name}</Link> */}
+            Character Name: {name}
         </div>
     )
 }
