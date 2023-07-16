@@ -11,8 +11,8 @@ const Profile = ( {user, updateUser, deleteUser} ) => {
 
     return (
         <div>
-            Welcome to your profile, {user.username}!
-            <Button onClick={toggleForm}>Edit</Button>
+            Username: {user.username}
+            <Button onClick={toggleForm}>Edit Profile</Button>
             {showForm ? null :
             <UpdateUserForm user={user} updateUser={updateUser} toggleForm={toggleForm} />
             }

@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import CharCard from './CharCard'
 import { useHistory, useParams } from 'react-router-dom'
-import { Card, Button, Container } from 'semantic-ui-react'
+import { Card, Button, Container, CardContent } from 'semantic-ui-react'
 
-const Characters = ( {charsToDisplay, chars, user, addUserChar, removeUserChar} ) => {
+const Characters = ( {charsToDisplay, chars, setChars, user, addUserChar, removeUserChar} ) => {
     const history = useHistory()
     const { id } = useParams()
-
-    // const char = () => {
-    //     chars.filter()
-    // }
+    const [main, setMain] = useState([])
 
     //! Characters
     useEffect(() => {
@@ -21,19 +18,19 @@ const Characters = ( {charsToDisplay, chars, user, addUserChar, removeUserChar} 
     
     //! issue with char here inside of CharCard...
     const mappedChars = charsToDisplay.map((char) => {
-        <CharCard key={char.id} {...char} />
+        return <CharCard key={char.id} {...char} />
     })
 
     //! Character by id
-    useEffect(() => {
-        fetch(`/characters/${id}`).then((res) => {
-            if (res.ok) {
-                res.json().then(setCharacter)
-            } else {
-                alert('Character Not Found')
-            }
-        })
-    }, [id])
+    // useEffect(() => {
+    //     fetch(`/characters/${id}`).then((res) => {
+    //         if (res.ok) {
+    //             res.json().then(setChars)
+    //         } else {
+    //             alert('Character Not Found')
+    //         }
+    //     })
+    // }, [id])
 
     const handleAddUserChar = () => {
         fetch('/user-characters', {
@@ -42,8 +39,7 @@ const Characters = ( {charsToDisplay, chars, user, addUserChar, removeUserChar} 
             body: JSON.stringify({ id }),
         }).then((res) => {
             if (res.ok) {
-                addUserChar(userChar)
-                // what variable is suppsed to be passed here?
+                addUserChar(main)
             } else {
                 alert('Something went wrong')
             }
@@ -53,7 +49,7 @@ const Characters = ( {charsToDisplay, chars, user, addUserChar, removeUserChar} 
     const handleRemoveUserChar = () => {
         fetch(`/user-characters/${id}`, { method: 'DELETE' }).then((res) => {
             if (res.ok) {
-                removeUserChar(char)
+                removeUserChar(main)
             } else {
                 alert('Something went wrong')
             }
@@ -64,31 +60,33 @@ const Characters = ( {charsToDisplay, chars, user, addUserChar, removeUserChar} 
         history.push('/profile')
     }
     
-
     return (
     <Container >
-        <Card.Group>
-            {mappedChars.map((char) => {
-                <Card
-                    fluid
-                    key={char.props.id}
-                    href={`/characters/${char.props.id}`}
-                    // className=''
-                    // style={{}}
-                    onClick={(e) => {
-                        e.preventDefault()
-                        history.push(`/chars/${char.props.id}`)
-                    }}
-                    >
-                    <Card.Content>
-                        <Card.Header>{char.props.name}</Card.Header>
-                        {/* <Card.Description>{char.props.icon}</Card.Description> */}
-                    </Card.Content>
-                </Card>
-            })}
-        </Card.Group>
+        {mappedChars}
     </Container>
     )
 }
 
 export default Characters
+
+
+{/* <Card.Group>
+            {charsToDisplay.map((char) => {
+                <Card
+                    fluid
+                    key={char.id}
+                    href={'/characters/'}
+                    // className=''
+                    // style={{}}
+                    onClick={(e) => {
+                        e.preventDefault()
+                        history.push('/characters/')
+                    }}
+                >
+                <Card.Content>
+                    <Card.Header>{char.name}</Card.Header>
+                    <Card.Description>{char.icon}</Card.Description>
+                </Card.Content>
+                </Card>
+            })}
+        </Card.Group> */}

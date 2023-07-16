@@ -131,7 +131,7 @@ function App() {
             setSearchChar={setSearchChar}
             onSearch={onSearch}
           />
-          <Characters charsToDisplay={charsToDisplay} addUserChar={addUserChar} removeUserChar={removeUserChar} />
+          <Characters user={user} setChars={setChars} charsToDisplay={charsToDisplay} addUserChar={addUserChar} removeUserChar={removeUserChar} />
         </Route>
         <Route exact path='/login'>
           <Authentication user={user} updateUser={updateUser}/>

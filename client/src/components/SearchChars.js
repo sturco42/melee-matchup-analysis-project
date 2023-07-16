@@ -8,7 +8,7 @@ const SearchChars = ( {searchChar, onSearch} ) => {
   }
 
   return(
-      <div id="search-container">
+      <div>
           <Input
           value={searchChar}
           type='text'
