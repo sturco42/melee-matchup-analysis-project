@@ -157,7 +157,7 @@ function App() {
           <Authentication user={user} updateUser={updateUser}/>
         </Route>
         <Route exact path='/notebooks'>
-          <Notebooks user={user} />
+          <Notebooks notebooksToDisplay={notebooksToDisplay} user={user} />
         </Route>
         <Route exact path='/contact-us' component={ContactUs} />
       </Switch>

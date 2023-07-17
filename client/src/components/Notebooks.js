@@ -1,14 +1,23 @@
 import NotebookTitle from "./NotebookTitle"
 
-const Notebooks = ( {user} ) => {
+const Notebooks = ( {user, notebooksToDisplay} ) => {
 
     //! map notebook titles here to display in return
-
+    const mappedNotebooks = notebooksToDisplay.map((notebook) => (
+        <NotebookTitle 
+            key={notebook.id}
+            {...notebook}
+            user={user}
+        />
+    ))
     
 
     return (
         //! will be notebook titles below as a variable and mapped above
-        <NotebookTitle />
+        <div>
+            <div>mapped notebooks:</div>
+            {mappedNotebooks}
+        </div>
     )
 }
 
