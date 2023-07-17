@@ -18,6 +18,19 @@ function App() {
   // const { id } = useParams()
   // const { userCharId } = useParams()
   // const [userChar, setUserChar] = useState([])
+  const [notebooks, setNotebooks] = useState([])
+
+  //! NOTEBOOKS INFO START
+  useEffect(() => {
+    fetch('/notebooks')
+      .then((res) => res.json())
+      .then(setNotebooks)
+      .catch((err) => console.log(err))
+  }, [])
+
+  const notebooksToDisplay = notebooks.filter((notebook) => (
+    notebook.user_id === user?.id
+  ))
 
   //! CHARACTERS START
   useEffect(() => {
@@ -117,9 +130,6 @@ function App() {
     };
     fetchUser()
   }, [])
-
-  //! NOTEBOOKS INFO START
-  
 
   return (
     <>

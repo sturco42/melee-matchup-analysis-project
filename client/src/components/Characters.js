@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import CharCard from './CharCard'
 import { useHistory, useParams } from 'react-router-dom'
 // import { Card, Button, Container, CardContent } from 'semantic-ui-react'
@@ -21,25 +21,10 @@ const Characters = ( {charsToDisplay, chars, setChars, user, addUserChar, remove
         )
     })
 
-    //! Character by id
-    // useEffect(() => {
-    //     fetch(`/characters/${id}`).then((res) => {
-    //         if (res.ok) {
-    //             res.json().then(setChars)
-    //         } else {
-    //             alert('Character Not Found')
-    //         }
-    //     })
-    // }, [id])
-
-    
-
-    const handleBackToProfile = () => {
-        history.push('/profile')
-    }
-    
     return (
-        <div>{mappedChars}</div>
+        <div>
+            {mappedChars}
+        </div>
     )
 }
 

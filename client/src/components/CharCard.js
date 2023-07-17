@@ -1,23 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Button } from 'semantic-ui-react'
-import { useParams, useHistory } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Button, Card, CardContent, Container } from 'semantic-ui-react'
+import { useHistory } from 'react-router-dom'
 
 const CharCard = ({ name, id, key, user, addUserChar, removeUserChar }) => {
     // const { id } = useParams()
     const [char, setChar] = useState([])
     const history = useHistory()
-    
-    // useEffect(() => {
-    //     fetch(`/characters/${id}`)
-    //     .then(res => {
-    //         if (res.ok) {
-    //             res.json().then(setChar)
-    //         } else {
-    //             res.json().then(e => alert(e.message))
-    //         }
-    //     })
-    //     .catch(console.error)
-    // }, [id])
     
     const handleAddMain = () => {
     // character should look like
@@ -68,14 +56,15 @@ const CharCard = ({ name, id, key, user, addUserChar, removeUserChar }) => {
     const charIsMain = mains.find((character) => character?.name === name) !== undefined
 
     return (
-      <div>
-        {name}
-        {!charIsMain ? (
-          <Button onClick={handleAddMain}>+</Button>
-        ) : (
-          <Button onClick={handleRemoveMain}>-</Button>
-        )}
-      </div>
+        <div>
+            {name}
+            {!charIsMain ? (
+            <Button onClick={handleAddMain}>+</Button>
+            ) : (
+            <Button onClick={handleRemoveMain}>-</Button>
+            )}
+            <Button >Create Notebook</Button>
+        </div>
     )
 }
 

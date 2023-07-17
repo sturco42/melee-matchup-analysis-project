@@ -8,7 +8,6 @@ const Profile = ( {user, updateUser, deleteUser} ) => {
     const toggleForm = () => {
         setShowForm((current) => !current)
     }
-    console.log(user)
 
     return (
         <div>
