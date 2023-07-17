@@ -41,8 +41,8 @@ const UpdateUserForm = ({ updateUser, user, toggleForm }) => {
               updateUser(user)
               alert('Successfully updated your account!')
               toggleForm()
-              resetForm({})
-              history.push('/users/:id')
+              resetForm({values: ''})
+              // history.push('/users/:id')
             });
           } else {
             res.json().then((err) => setErrors(err.errors))

@@ -47,11 +47,11 @@ const CharCard = ({ name, id, key, user, addUserChar, removeUserChar }) => {
     
     const handleRemoveMain = () => {
         // the ID here is the general id of the character e.g. 14 of kirby
-        // This works because on the backend we match on character ID and user ID (so we don't need the specific 214 id)
+        // This works because on the backend we match on character ID and user ID (so we don't need the specific 214 user_char id)
         fetch(`/user-characters/${id}`, {method: 'DELETE'})
         .then((res) => {
             if (res.ok) {
-                // we need to get the specific character user id (e.g. 214 or something for kirby) because that is how we match and remove from our react state
+        // we need to get the specific character user id (e.g. 214 or something for kirby) because that is how we match and remove from our react state
         const characterUserId = user?.user_characters.find((character) => character?.character?.name === name)?.id
                 removeUserChar(characterUserId)
                 alert('Successfully removed main')

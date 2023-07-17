@@ -7,15 +7,17 @@ import Home from './Home'
 import SearchChars from './SearchChars'
 import Characters from './Characters'
 import ContactUs from './ContactUs'
+import Notebooks from './Notebooks'
 
 function App() {
+  //! make user useContext ?
   const [user, setUser] = useState(null)
   const [chars, setChars] = useState([])
   const [searchChar, setSearchChar] = useState('')
   const history = useHistory()
   // const { id } = useParams()
-  const { userCharId } = useParams()
-  const [userChar, setUserChar] = useState([])
+  // const { userCharId } = useParams()
+  // const [userChar, setUserChar] = useState([])
 
   //! CHARACTERS START
   useEffect(() => {
@@ -51,8 +53,6 @@ function App() {
   }
 
   const removeUserChar = (id) => {
-
-
     setUser((currentUser) => ({
       ...currentUser,
       user_characters: currentUser.user_characters.filter(
@@ -118,7 +118,9 @@ function App() {
     fetchUser()
   }, [])
 
+  //! NOTEBOOKS INFO START
   
+
   return (
     <>
       <Navigation handleLogoutClick={handleLogoutClick} user={user} />
@@ -143,6 +145,9 @@ function App() {
         </Route>
         <Route exact path='/login'>
           <Authentication user={user} updateUser={updateUser}/>
+        </Route>
+        <Route exact path='/notebooks'>
+          <Notebooks user={user} />
         </Route>
         <Route exact path='/contact-us' component={ContactUs} />
       </Switch>
