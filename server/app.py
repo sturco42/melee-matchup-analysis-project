@@ -59,10 +59,12 @@ def logout():
 class UserCharacters(Resource):
     
     def get(self):
-        notebooks = [user_character.to_dict() for user_character in UserCharacter.query.all()]
-        return make_response(notebooks, 200)
+        print('test')
+        user_characters = [user_character.to_dict() for user_character in UserCharacter.query.all()]
+        return make_response(user_characters, 200)
     
     def post(self):
+        print('test2')
         if 'user_id' in session:
             try:
                 new_user_character = UserCharacter(
@@ -90,7 +92,7 @@ class UserCharacterById(Resource):
         if 'user_id' not in session:
             return make_response({'error': 'Unauthorized' }, 401)
         try:
-            user_character = UserCharacter.query.filter_by(user_id = session.get('user_id'), character_id = id).first()
+            user_character = UserCharacter.query.filter_by(user_id=session['user_id'], character_id=id).first()
             if not user_character:
                 return make_response({'error': 'Cannot find that character in your library'}, 404)
             db.session.delete(user_character)
@@ -104,6 +106,7 @@ api.add_resource(UserCharacterById, '/user-characters/<int:id>')
 class Characters(Resource):
     
     def get(self):
+        print('test3')
         characters = [character.to_dict() for character in Character.query.all()]
         return make_response(characters, 200)
 

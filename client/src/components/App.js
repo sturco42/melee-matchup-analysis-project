@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Switch, Route, useHistory } from 'react-router-dom'
+import { Switch, Route, useHistory, useParams } from 'react-router-dom'
 import Navigation from './Navigation'
 import Profile from './Profile'
 import Authentication from './Authentication'
 import Home from './Home'
 import SearchChars from './SearchChars'
 import Characters from './Characters'
-// import CharCard from './CharCard'
 import ContactUs from './ContactUs'
 
 function App() {
@@ -14,6 +13,9 @@ function App() {
   const [chars, setChars] = useState([])
   const [searchChar, setSearchChar] = useState('')
   const history = useHistory()
+  // const { id } = useParams()
+  const { userCharId } = useParams()
+  const [userChar, setUserChar] = useState([])
 
   //! CHARACTERS START
   useEffect(() => {
@@ -32,24 +34,30 @@ function App() {
   }
 
   const addUserChar = (char) => {
+    // character should look like
+    // {
+    //   character: {name: 'something'},
+    //   id: 999,
+    //   user_id: 666
+    // }
+    
     setUser((currentUser) => ({
       ...currentUser,
       user_characters: [
         ...currentUser.user_characters,
-        {
-          char,
-        },
+        char,
       ],
     }))
   }
 
-  // might need to change character to char after userChar. ???
-  const removeUserChar = (char) => {
+  const removeUserChar = (id) => {
+
+
     setUser((currentUser) => ({
       ...currentUser,
-      user_characters: currentUser.user_chararacters.filter(
-        (userChar) => userChar.character.id !== char.id
-      ),
+      user_characters: currentUser.user_characters.filter(
+        (userChar) => userChar.id !== id
+      )
     }))
   }
 
@@ -136,7 +144,7 @@ function App() {
         <Route exact path='/login'>
           <Authentication user={user} updateUser={updateUser}/>
         </Route>
-        <Route exact path="/contact-us" component={ContactUs} />
+        <Route exact path='/contact-us' component={ContactUs} />
       </Switch>
     </>
   )

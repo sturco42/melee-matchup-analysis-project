@@ -3,19 +3,19 @@ import { Input } from 'semantic-ui-react'
 
 const SearchChars = ( {searchChar, onSearch} ) => {
   
-  const handleChange = (e) => {
-      onSearch(e.target.value)
-  }
+    const handleChange = (e) => {
+        onSearch(e.target.value)
+    }
 
   return(
       <div>
-          <Input
-          value={searchChar}
-          type='text'
-          id='search'
-          placeholder='Search for a character!'
-          onChange={handleChange}
-          />
+            <Input
+            value={searchChar}
+            type='text'
+            id='search'
+            placeholder='Search for a character!'
+            onChange={handleChange}
+            />
       </div>
   )
 }

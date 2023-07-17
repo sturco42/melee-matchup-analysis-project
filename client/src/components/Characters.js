@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import CharCard from './CharCard'
 import { useHistory, useParams } from 'react-router-dom'
-import { Card, Button, Container, CardContent } from 'semantic-ui-react'
+// import { Card, Button, Container, CardContent } from 'semantic-ui-react'
 
 const Characters = ( {charsToDisplay, chars, setChars, user, addUserChar, removeUserChar} ) => {
     const history = useHistory()
     const { id } = useParams()
-    const [main, setMain] = useState([])
-
-    //! Characters
-    useEffect(() => {
-        fetch('/characters')
-            .then((res) => res.json())
-            .then(setChars)
-            .catch((err) => console.log(err))
-        }, [])
+    const [main, setMain] = useState(false)
     
-    //! issue with char here inside of CharCard...
+    
     const mappedChars = charsToDisplay.map((char) => {
-        return <CharCard key={char.id} {...char} />
+        return (
+            <CharCard
+                key={char.id}
+                {...char}
+                addUserChar={addUserChar}
+                removeUserChar={removeUserChar}
+                user={user}
+            />
+        )
     })
 
     //! Character by id
@@ -32,61 +32,15 @@ const Characters = ( {charsToDisplay, chars, setChars, user, addUserChar, remove
     //     })
     // }, [id])
 
-    const handleAddUserChar = () => {
-        fetch('/user-characters', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id }),
-        }).then((res) => {
-            if (res.ok) {
-                addUserChar(main)
-            } else {
-                alert('Something went wrong')
-            }
-        })
-    }
-
-    const handleRemoveUserChar = () => {
-        fetch(`/user-characters/${id}`, { method: 'DELETE' }).then((res) => {
-            if (res.ok) {
-                removeUserChar(main)
-            } else {
-                alert('Something went wrong')
-            }
-        })
-    }
+    
 
     const handleBackToProfile = () => {
         history.push('/profile')
     }
     
     return (
-    <Container >
-        {mappedChars}
-    </Container>
+        <div>{mappedChars}</div>
     )
 }
 
 export default Characters
-
-
-{/* <Card.Group>
-            {charsToDisplay.map((char) => {
-                <Card
-                    fluid
-                    key={char.id}
-                    href={'/characters/'}
-                    // className=''
-                    // style={{}}
-                    onClick={(e) => {
-                        e.preventDefault()
-                        history.push('/characters/')
-                    }}
-                >
-                <Card.Content>
-                    <Card.Header>{char.name}</Card.Header>
-                    <Card.Description>{char.icon}</Card.Description>
-                </Card.Content>
-                </Card>
-            })}
-        </Card.Group> */}

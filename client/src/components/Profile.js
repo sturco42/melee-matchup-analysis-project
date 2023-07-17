@@ -8,16 +8,33 @@ const Profile = ( {user, updateUser, deleteUser} ) => {
     const toggleForm = () => {
         setShowForm((current) => !current)
     }
+    console.log(user)
 
     return (
         <div>
-            Username: {user.username}
-            <Button onClick={toggleForm}>Edit Profile</Button>
-            {showForm ? null :
-            <UpdateUserForm user={user} updateUser={updateUser} toggleForm={toggleForm} />
-            }
-            <Button onClick={deleteUser}>Delete Account</Button>
+            <div>
+                Username: {user.username}</div>
+            <div>
+                <Button onClick={toggleForm}>Edit Profile</Button>
+                {showForm ? null :
+                <UpdateUserForm user={user} updateUser={updateUser} toggleForm={toggleForm} />
+                }
+                <Button onClick={deleteUser}>Delete Account</Button>
+            </div>
+            <div>
+                Main(s):
+                 {
+                    user?.user_characters.map((user_char) => {
+                        return(
+                        <div>
+                            {user_char?.character?.name}
+                        </div>
+                        )
+                    })
+                }
+            </div>
         </div>
+        
     )
 }
 
