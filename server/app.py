@@ -22,10 +22,10 @@ def signup():
         username = request.get_json().get('username')
         password = request.get_json().get('password')
         salt = bcrypt.gensalt()
-        print(type(password))
+        # print(type(password))
         # import ipdb; ipdb.set_trace()
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
-        print(hashed_password)
+        # print(hashed_password)
         user = User(
             username=username,
             password_hash=hashed_password
@@ -59,12 +59,12 @@ def logout():
 class UserCharacters(Resource):
     
     def get(self):
-        print('test')
+        # print('test')
         user_characters = [user_character.to_dict() for user_character in UserCharacter.query.all()]
         return make_response(user_characters, 200)
     
     def post(self):
-        print('test2')
+        # print('test2')
         if 'user_id' in session:
             try:
                 new_user_character = UserCharacter(
@@ -106,7 +106,7 @@ api.add_resource(UserCharacterById, '/user-characters/<int:id>')
 class Characters(Resource):
     
     def get(self):
-        print('test3')
+        # print('test3')
         characters = [character.to_dict() for character in Character.query.all()]
         return make_response(characters, 200)
 
@@ -218,9 +218,12 @@ class NotebookById(Resource):
         
         if notebooks:
             return make_response(notebooks, 200)
-        return make_response({'error': 'notebook must have a valid user and valid character'}, 404)
+        return make_response({'error': 'Notebook must have a valid user and valid character'}, 404)
     
     def delete(self, id):
+        # if 'user_id' not in session:
+        #     print(id)
+        # print(session.get('user_id'))
         if 'user_id' not in session:
             return make_response({'error': 'Unauthorized' }, 401)
         try:

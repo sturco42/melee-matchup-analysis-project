@@ -1,19 +1,16 @@
 import React, { useState } from 'react'
 import CharCard from './CharCard'
-import { useHistory, useParams } from 'react-router-dom'
+// import { useHistory, useParams } from 'react-router-dom'
 // import { Card, Button, Container, CardContent } from 'semantic-ui-react'
 
-const Characters = ( {charsToDisplay, user, addUserChar, removeUserChar, updateNotebooks} ) => {
-    const history = useHistory()
-    const { id } = useParams()
-    const [main, setMain] = useState(false)
-    
+const Characters = ( {charsToDisplay, user, addUserChar, removeUserChar, updateNotebooks, removeNotebook} ) => {
     
     const mappedChars = charsToDisplay.map((char) => {
         return (
             <CharCard
                 key={char.id}
                 updateNotebooks={updateNotebooks}
+                removeNotebook={removeNotebook}
                 {...char}
                 addUserChar={addUserChar}
                 removeUserChar={removeUserChar}

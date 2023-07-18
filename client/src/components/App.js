@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { Switch, Route, useHistory, useParams } from "react-router-dom";
-import Navigation from "./Navigation";
-import Profile from "./Profile";
-import Authentication from "./Authentication";
-import Home from "./Home";
-import SearchChars from "./SearchChars";
-import Characters from "./Characters";
-import ContactUs from "./ContactUs";
-import Notebooks from "./Notebooks";
+import React, { useEffect, useState } from 'react'
+import { Switch, Route, useHistory, useParams } from 'react-router-dom'
+import Navigation from './Navigation'
+import Profile from './Profile'
+import Authentication from './Authentication'
+import Home from './Home'
+import SearchChars from './SearchChars'
+import Characters from './Characters'
+import ContactUs from './ContactUs'
+import Notebooks from './Notebooks'
 
 function App() {
   //! make user useContext ?
-  const [user, setUser] = useState(null);
-  const [chars, setChars] = useState([]);
-  const [searchChar, setSearchChar] = useState("");
-  const history = useHistory();
+  const [user, setUser] = useState(null)
+  const [chars, setChars] = useState([])
+  const [searchChar, setSearchChar] = useState('')
+  const history = useHistory()
   // const { id } = useParams()
   // const { userCharId } = useParams()
   // const [userChar, setUserChar] = useState([])
-  const [notebooks, setNotebooks] = useState([]);
+  const [notebooks, setNotebooks] = useState([])
 
   // const notebooksToDisplay = notebooks.filter((notebook) => {
 
@@ -35,7 +35,7 @@ function App() {
   // this should just be a function that's called inside the useeffect we declare below
   //! CHARACTERS START
   useEffect(() => {
-    fetch("/characters")
+    fetch('/characters')
       .then((res) => res.json())
       .then(setChars)
       .catch((err) => console.log(err));
@@ -50,13 +50,6 @@ function App() {
   };
 
   const addUserChar = (char) => {
-    // character should look like
-    // {
-    //   character: {name: 'something'},
-    //   id: 999,
-    //   user_id: 666
-    // }
-
     setUser((currentUser) => ({
       ...currentUser,
       user_characters: [...currentUser.user_characters, char],
@@ -72,22 +65,16 @@ function App() {
     }));
   };
 
-  //! USERS START
-  const updateUser = (user) => {
-    console.log("we are updating the user");
-    console.log(user);
-    setUser(user);
-  };
-
-  const updateNotebooks = () => {
-    fetchUserNoteBooks(user);
+  const removeNotebook = (id) => {
+    setUser((currentUser) => ({
+      ...currentUser,
+      notebooks: currentUser.notebooks.filter((notebook) => notebook.id !== id)
+    }))
   }
 
-  const setInitialUser = (userToFetch) => {
-
-
-    fetchUserNoteBooks(userToFetch);
-    setUser(userToFetch);
+  //! USERS START
+  const updateUser = (user) => {
+    setUser(user);
   };
 
   const removeUser = (user) => {
@@ -105,30 +92,30 @@ function App() {
   };
 
   function deleteUser() {
-    fetch(`/users/${user.id}`, { method: "DELETE" }).then((res) => {
+    fetch(`/users/${user.id}`, { method: 'DELETE' }).then((res) => {
       if (res.ok) {
         removeUser(user);
-        alert("Successfully deleted user");
-        history.push("/login");
+        alert('Successfully deleted user');
+        history.push('/login');
         setUser(null);
       } else {
-        alert("Something went wrong");
+        alert('Something went wrong');
       }
     });
   }
 
   function handleLogoutClick() {
-    fetch("/logout", { method: "DELETE" }).then((res) => {
+    fetch('/logout', { method: 'DELETE' }).then((res) => {
       if (res.ok) {
         updateUser(null);
-        history.push("/authentication");
+        history.push('/authentication');
       }
     });
   }
 
   useEffect(() => {
     const fetchUser = () => {
-      fetch("/authenticate").then((res) => {
+      fetch('/authenticate').then((res) => {
         if (res.ok) {
           res.json().then(setInitialUser);
         } else {
@@ -139,7 +126,16 @@ function App() {
     fetchUser();
   }, []);
 
-  const fetchUserNoteBooks = (userToFetch) => {
+  const updateNotebooks = () => {
+    fetchUserNotebooks(user);
+  }
+
+  const setInitialUser = (userToFetch) => {
+    fetchUserNotebooks(userToFetch);
+    setUser(userToFetch);
+  };
+
+  const fetchUserNotebooks = (userToFetch) => {
     //console.log('we are about to fetch our note book and heres the user id')
     //console.log(userToFetch.id)
 
@@ -148,7 +144,7 @@ function App() {
         return res.json();
       })
       .then((serializedNotebook) => {
-        setNotebooks(serializedNotebook);
+        setNotebooks(serializedNotebook)
       })
       .catch((err) => console.log(err));
   };
@@ -170,17 +166,17 @@ function App() {
     <>
       <Navigation handleLogoutClick={handleLogoutClick} user={user} />
       <Switch>
-        <Route exact path="/">
+        <Route exact path='/'>
           <Home />
         </Route>
-        <Route exact path="/users/:id">
+        <Route exact path='/users/:id'>
           <Profile
             user={user}
             updateUser={updateUser}
             deleteUser={deleteUser}
           />
         </Route>
-        <Route exact path="/characters">
+        <Route exact path='/characters'>
           <SearchChars
             searchChar={searchChar}
             setSearchChar={setSearchChar}
@@ -193,15 +189,16 @@ function App() {
             addUserChar={addUserChar}
             removeUserChar={removeUserChar}
             updateNotebooks={updateNotebooks}
+            removeNotebook={removeNotebook}
           />
         </Route>
-        <Route exact path="/login">
+        <Route exact path='/login'>
           <Authentication user={user} updateUser={updateUser} />
         </Route>
-        <Route exact path="/notebooks">
-          <Notebooks notebooksToDisplay={notebooks} user={user} />
+        <Route exact path='/notebooks'>
+          <Notebooks notebooksToDisplay={notebooks} removeNotebook={removeNotebook} user={user} />
         </Route>
-        <Route exact path="/contact-us" component={ContactUs} />
+        <Route exact path='/contact-us' component={ContactUs} />
       </Switch>
     </>
   );

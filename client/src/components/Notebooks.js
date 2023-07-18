@@ -1,17 +1,18 @@
-import NotebookTitle from "./NotebookTitle"
+import NotebookTitle from './NotebookTitle'
 
-const Notebooks = ( {user, notebooksToDisplay} ) => {
+const Notebooks = ( {user, notebooksToDisplay, removeNotebook} ) => {
 
-    console.log(notebooksToDisplay)
+    // console.log(notebooksToDisplay)
     //! map notebook titles here to display in return
     const mappedNotebooks = notebooksToDisplay.map((notebook) => {
-        console.log('our notebook')
-        console.log(notebook)
+        // console.log('our notebook')
+        // console.log(notebook)
         return (
             <NotebookTitle 
                 key={notebook.id}
                 {...notebook}
                 user={user}
+                removeNotebook={removeNotebook}
             />
         )
     })

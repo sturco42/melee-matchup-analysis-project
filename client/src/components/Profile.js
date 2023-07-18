@@ -11,8 +11,7 @@ const Profile = ( {user, updateUser, deleteUser} ) => {
 
     return (
         <div>
-            <div>
-                Username: {user.username}</div>
+            {user ? <div>Username: {user.username}</div> : <div></div>}
             <div>
                 <Button onClick={toggleForm}>Edit Profile</Button>
                 {showForm ? null :
@@ -22,14 +21,16 @@ const Profile = ( {user, updateUser, deleteUser} ) => {
             </div>
             <div>
                 Main(s):
-                 {
+                {
+                    user ?
                     user?.user_characters.map((user_char) => {
                         return(
-                        <div>
+                        <div key={user_char.id} >
                             {user_char?.character?.name}
                         </div>
                         )
                     })
+                    : null
                 }
             </div>
         </div>

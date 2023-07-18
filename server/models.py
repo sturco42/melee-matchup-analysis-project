@@ -39,7 +39,7 @@ class User(db.Model, SerializerMixin):
     characters = association_proxy('-user_characters.id', '-user_characters.user_id')
     
     #! new
-    notebooks = db.relationship('Notebook', back_populates='user')
+    notebooks = db.relationship('Notebook', back_populates='user', cascade='all')
     
     serialize_only = ('id', 'username', 'user_characters')
     # serialize_rules = ('user_characters.id', 'user_characters.user_id')
@@ -114,7 +114,7 @@ class Notebook(db.Model, SerializerMixin):
     #! new
     interactions = db.relationship('Interaction', back_populates='notebook')
     
-    serialize_only = ('id', 'character.name', 'character_id', 'user.username', 'user_id')
+    serialize_only = ('id', 'character.name', 'character_id', 'user.username',  'user_id')
     serialize_rules = ()
     
     def __repr__(self):

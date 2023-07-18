@@ -23,7 +23,7 @@ print("Starting seed...")
 
 def create_users():
     users = []
-    for _ in range(100):
+    for _ in range(10):
         salt = bcrypt.gensalt()
         password = 'password'
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
@@ -181,7 +181,7 @@ def create_characters():
 
 def create_user_characters(users, characters):
     user_characters = []
-    for _ in range(200):
+    for _ in range(10):
         user_character = UserCharacter(
             user_id = rc([user.id for user in users]),
             character_id = rc([character.id for character in characters])
@@ -191,7 +191,7 @@ def create_user_characters(users, characters):
 
 def create_notebooks(users, characters):
     notebooks = []
-    for _ in range(300):
+    for _ in range(10):
         result = random.choice([True, False])
         notebook = Notebook(
             user_id = rc([user.id for user in users]),
