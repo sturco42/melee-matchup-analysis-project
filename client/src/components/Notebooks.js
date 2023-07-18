@@ -20,7 +20,7 @@ const Notebooks = ( {user, notebooksToDisplay, removeNotebook} ) => {
     return (
         //! will be notebook titles below as a variable and mapped above
         <div>
-            <div>{mappedNotebooks}</div>
+            {notebooksToDisplay ? <div>{mappedNotebooks}</div> : null}
         </div>
     )
 }
