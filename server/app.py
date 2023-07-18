@@ -184,12 +184,24 @@ class Notebooks(Resource):
     def post(self):
         if 'user_id' in session:
             try:
+                character_id = request.get_json()['id']
+                
+                # Check if a notebook already exists for the given character_id
+                existing_notebook = Notebook.query.filter_by(
+                    user_id=session['user_id'], character_id=character_id
+                ).first()
+                
+                if existing_notebook:
+                    return make_response({'error': 'Notebook for this character already exists'}, 409)
+                
                 new_notebook = Notebook(
-                    user_id = session['user_id'],
-                    character_id = request.get_json()['id']
+                    user_id=session['user_id'],
+                    character_id=character_id
                 )
+                
                 db.session.add(new_notebook)
                 db.session.commit()
+                
                 return make_response('', 200)
             except Exception as e:
                 return make_response({'error': str(e)}, 400)
