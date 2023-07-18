@@ -41,7 +41,7 @@ class User(db.Model, SerializerMixin):
     #! new
     notebooks = db.relationship('Notebook', back_populates='user', cascade='all')
     
-    serialize_only = ('id', 'username', 'user_characters')
+    serialize_only = ('id', 'username', 'user_characters', 'notebooks')
     # serialize_rules = ('user_characters.id', 'user_characters.user_id')
 
     @hybrid_property

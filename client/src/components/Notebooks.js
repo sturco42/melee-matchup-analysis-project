@@ -4,7 +4,7 @@ const Notebooks = ( {user, notebooksToDisplay, removeNotebook} ) => {
 
     // console.log(notebooksToDisplay)
     //! map notebook titles here to display in return
-    const mappedNotebooks = notebooksToDisplay.map((notebook) => {
+    const mappedNotebooks = notebooksToDisplay?.map((notebook) => {
         // console.log('our notebook')
         // console.log(notebook)
         return (

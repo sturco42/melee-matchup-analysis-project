@@ -45,7 +45,7 @@ const Authentication = ({ user, updateUser }) => {
                 const data = await response.json();
                 updateUser(data)
                 resetForm()
-                history.push('/users/:id')
+                history.push(`/users/${data.id}`)
               } else {
                 const errorData = await response.json();
                 setErrors([errorData.error])

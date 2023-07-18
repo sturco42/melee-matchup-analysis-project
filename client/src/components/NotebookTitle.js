@@ -13,24 +13,24 @@ const NotebookTitle = ( {user, id, character, removeNotebook} ) => {
         return ((console.log(id)))
     }
 
-    useEffect(() => {
-        fetch(`/notebooks/${noteId}`)
-        .then(res => {
-            if (res.ok) {
-                res.json().then(setNote)
-            } else {
-                res.json().then(error => setError(error.message))
-            }
-        })
-        .catch(console.error)
-    }, [noteId])
+    // useEffect(() => {
+    //     fetch(`/notebooks/${id}`)
+    //     .then(res => {
+    //         if (res.ok) {
+    //             res.json().then(setNote)
+    //         } else {
+    //             res.json().then(error => setError(error.message))
+    //         }
+    //     })
+    //     .catch(console.error)
+    // }, [id])
 
-    const handleDeleteNotebook = (e) => {
-        fetch(`/notebooks/${noteId}`, { method: 'DELETE' }).then((res) => {
+    const handleDeleteNotebook = () => {
+        fetch(`/notebooks/${id}`, { method: 'DELETE' }).then((res) => {
             // return (console.log(id))
             if (res.ok) {
                 // const notebookId = parseInt(id)
-                removeNotebook(noteId)
+                removeNotebook(id)
                 history.push('/notebooks')
                 alert('Successfully removed notebook')
             }   else {
@@ -48,7 +48,7 @@ const NotebookTitle = ( {user, id, character, removeNotebook} ) => {
 
     return (
         <div>
-           <button onClick={consoleLog}> {character.name}</button>
+           <button onClick={consoleLog}>{character.name}</button>
            <button onClick={handleDeleteNotebook}>Delete Notebook</button>
         </div>
     )

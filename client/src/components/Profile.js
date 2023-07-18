@@ -23,7 +23,7 @@ const Profile = ( {user, updateUser, deleteUser} ) => {
                 Main(s):
                 {
                     user ?
-                    user?.user_characters.map((user_char) => {
+                    user?.user_characters?.map((user_char) => {
                         return(
                         <div key={user_char.id} >
                             {user_char?.character?.name}

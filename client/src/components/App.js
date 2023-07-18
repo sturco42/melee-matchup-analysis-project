@@ -72,6 +72,13 @@ function App() {
     }))
   }
 
+  const addNotebook = (notebook) => {
+    setUser((currentUser) => ({
+      ...currentUser,
+      notebooks: [...currentUser.notebooks, notebook]
+    }))
+  }
+
   //! USERS START
   const updateUser = (user) => {
     setUser(user);
@@ -127,27 +134,27 @@ function App() {
   }, []);
 
   const updateNotebooks = () => {
-    fetchUserNotebooks(user);
+    // fetchUserNotebooks(user);
   }
 
   const setInitialUser = (userToFetch) => {
-    fetchUserNotebooks(userToFetch);
+    // fetchUserNotebooks(userToFetch);
     setUser(userToFetch);
   };
 
-  const fetchUserNotebooks = (userToFetch) => {
-    //console.log('we are about to fetch our note book and heres the user id')
-    //console.log(userToFetch.id)
+  // const fetchUserNotebooks = (userToFetch) => {
+  //   //console.log('we are about to fetch our note book and heres the user id')
+  //   //console.log(userToFetch.id)
 
-    fetch(`/notebooks/${userToFetch.id}`)
-      .then((res) => {
-        return res.json();
-      })
-      .then((serializedNotebook) => {
-        setNotebooks(serializedNotebook)
-      })
-      .catch((err) => console.log(err));
-  };
+  //   fetch(`/notebooks/${userToFetch.id}`)
+  //     .then((res) => {
+  //       return res.json();
+  //     })
+  //     .then((serializedNotebook) => {
+  //       setNotebooks(serializedNotebook)
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   //! NOTEBOOKS INFO START
   // useEffect(() => {
@@ -188,7 +195,7 @@ function App() {
             charsToDisplay={charsToDisplay}
             addUserChar={addUserChar}
             removeUserChar={removeUserChar}
-            updateNotebooks={updateNotebooks}
+            addNotebook={addNotebook}
             removeNotebook={removeNotebook}
           />
         </Route>
@@ -196,7 +203,7 @@ function App() {
           <Authentication user={user} updateUser={updateUser} />
         </Route>
         <Route exact path='/notebooks'>
-          <Notebooks notebooksToDisplay={notebooks} removeNotebook={removeNotebook} user={user} />
+          <Notebooks notebooksToDisplay={user?.notebooks} removeNotebook={removeNotebook} user={user} />
         </Route>
         <Route exact path='/contact-us' component={ContactUs} />
       </Switch>

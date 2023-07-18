@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button, Card, CardContent, Container } from 'semantic-ui-react'
 import { useHistory, useParams } from 'react-router-dom'
 
-const CharCard = ({ name, id, user, addUserChar, removeUserChar, updateNotebooks }) => {
+const CharCard = ({ name, id, user, addUserChar, removeUserChar, addNotebook }) => {
 //   const { id } = useParams()
   const [char, setChar] = useState([])
   const history = useHistory()
@@ -58,7 +58,7 @@ const CharCard = ({ name, id, user, addUserChar, removeUserChar, updateNotebooks
         })
         .then((res) => {
             if (res.ok) {
-                updateNotebooks()
+                res.json().then((data) => addNotebook(data))
             }
         })
     }

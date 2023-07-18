@@ -33,7 +33,7 @@ def signup():
         db.session.add(user)
         db.session.commit()
         session['user_id'] = user.id
-        return make_response({'message': 'User signup successful'}, 201)
+        return make_response(user.to_dict(), 201)
     except Exception as e:
         return make_response({'error': str(e)}, 500)
 
@@ -202,7 +202,7 @@ class Notebooks(Resource):
                 db.session.add(new_notebook)
                 db.session.commit()
                 
-                return make_response('', 200)
+                return make_response(new_notebook.to_dict(), 201)
             except Exception as e:
                 return make_response({'error': str(e)}, 400)
         return make_response({'error': 'Unauthorized' }, 401)
@@ -227,7 +227,8 @@ class NotebookById(Resource):
         if 'user_id' not in session:
             return make_response({'error': 'Unauthorized' }, 401)
         try:
-            notebook = Notebook.query.filter_by(user_id = session.get('user_id'), character_id = id).first()
+            notebook = Notebook.query.filter_by(user_id = session.get('user_id'), id = id).first()
+            # import ipdb; ipdb.set_trace()
             if not notebook:
                 return make_response({'error': 'Cannot find that notebook'}, 404)
             db.session.delete(notebook)

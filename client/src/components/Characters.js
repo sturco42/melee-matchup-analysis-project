@@ -3,13 +3,13 @@ import CharCard from './CharCard'
 // import { useHistory, useParams } from 'react-router-dom'
 // import { Card, Button, Container, CardContent } from 'semantic-ui-react'
 
-const Characters = ( {charsToDisplay, user, addUserChar, removeUserChar, updateNotebooks, removeNotebook} ) => {
+const Characters = ( {charsToDisplay, user, addUserChar, removeUserChar, addNotebook, removeNotebook} ) => {
     
     const mappedChars = charsToDisplay.map((char) => {
         return (
             <CharCard
                 key={char.id}
-                updateNotebooks={updateNotebooks}
+                addNotebook={addNotebook}
                 removeNotebook={removeNotebook}
                 {...char}
                 addUserChar={addUserChar}
