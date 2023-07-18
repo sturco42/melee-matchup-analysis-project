@@ -200,9 +200,12 @@ api.add_resource(Notebooks, '/notebooks')
 class NotebookById(Resource):
     
     def get(self, id):
-        notebook = db.session.get(Notebook, id)
-        if notebook:
-            return make_response(notebook.to_dict(), 200)
+        # notebook = db.session.get(Notebook, id)
+
+        notebooks = [notebook.to_dict() for notebook in Notebook.query.filter_by(user_id = id).all()]
+        
+        if notebooks:
+            return make_response(notebooks, 200)
         return make_response({'error': 'notebook must have a valid user and valid character'}, 404)
     
     def delete(self, id):

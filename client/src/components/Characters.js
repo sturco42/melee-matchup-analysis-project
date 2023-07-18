@@ -3,7 +3,7 @@ import CharCard from './CharCard'
 import { useHistory, useParams } from 'react-router-dom'
 // import { Card, Button, Container, CardContent } from 'semantic-ui-react'
 
-const Characters = ( {charsToDisplay, chars, setChars, user, addUserChar, removeUserChar} ) => {
+const Characters = ( {charsToDisplay, user, addUserChar, removeUserChar, updateNotebooks} ) => {
     const history = useHistory()
     const { id } = useParams()
     const [main, setMain] = useState(false)
@@ -13,6 +13,7 @@ const Characters = ( {charsToDisplay, chars, setChars, user, addUserChar, remove
         return (
             <CharCard
                 key={char.id}
+                updateNotebooks={updateNotebooks}
                 {...char}
                 addUserChar={addUserChar}
                 removeUserChar={removeUserChar}

@@ -114,7 +114,7 @@ class Notebook(db.Model, SerializerMixin):
     #! new
     interactions = db.relationship('Interaction', back_populates='notebook')
     
-    serialize_only = ('id', 'character.name', 'user.username')
+    serialize_only = ('id', 'character.name', 'character_id', 'user.username', 'user_id')
     serialize_rules = ()
     
     def __repr__(self):

@@ -1,9 +1,14 @@
 // imports
 
-const NotebookTitle = () => {
+const NotebookTitle = ( {user, id, character} ) => {
+    console.log(character)
+
+    const handleClick = () => {
+
+    }
     return (
         <div>
-            notebook titles mapped
+           <button onClick={handleClick}> {character.name}</button>
         </div>
     )
 }
