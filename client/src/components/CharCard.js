@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Button, Card, CardContent, Container } from 'semantic-ui-react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 
-const CharCard = ({ name, id, user, addUserChar, removeUserChar, updateNotebooks, removeNotebook }) => {
-  // const { id } = useParams()
+const CharCard = ({ name, id, user, addUserChar, removeUserChar, updateNotebooks }) => {
+//   const { id } = useParams()
   const [char, setChar] = useState([])
   const history = useHistory()
 
