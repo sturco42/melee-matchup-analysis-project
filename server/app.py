@@ -271,13 +271,23 @@ class ClipsById(Resource):
             except Exception as e:
                 return make_response({'errors': [str(e)]}, 400)
     
-    def delete(self, id):
-        pass
+    def delete(self, notebook_id, clip_id):
+        try:
+            clip = Clip.query.filter_by(notebook_id=notebook_id, id=clip_id).first()
+            if not clip:
+                return make_response({'error': 'Clip not found'}, 404)
+
+            db.session.delete(clip)
+            db.session.commit()
+
+            return make_response({}, 204)
+        except Exception as e:
+            return make_response({'errors': [str(e)]}, 400)
     
     def patch(self, id):
         pass
 
-api.add_resource(ClipsById, '/notebooks/clips/<int:id>')
+api.add_resource(ClipsById, '/notebooks/<int:id>', '/notebooks/<int:notebook_id>/clips/<int:clip_id>')
     
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
