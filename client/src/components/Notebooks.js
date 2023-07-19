@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react'
-import Notes from './Notes'
+import Clips from './Clips'
 import NotebookTitle from './NotebookTitle'
 import { UserContext } from './UserContext'
 
@@ -34,7 +34,7 @@ const Notebooks = ( {notebooksToDisplay, removeNotebook} ) => {
     return (
         //! will be notebook titles below as a variable and mapped above
         <div>
-            {notebookIsSelected ? <Notes id={selectedNotebook} onClose={handleClick} /> : notebooksToDisplay ? <div>{mappedNotebooks}</div> : null}
+            {notebookIsSelected ? <Clips id={selectedNotebook} onClose={handleClick} /> : notebooksToDisplay ? <div>{mappedNotebooks}</div> : null}
         </div>
     )
 }

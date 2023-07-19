@@ -239,5 +239,24 @@ class NotebookById(Resource):
         
 api.add_resource(NotebookById, '/notebooks/<int:id>')
 
+class ClipsById(Resource):
+    
+    def get(self, id):
+        clips = [clip.to_dict() for clip in Clip.query.filter_by(notebook_id = id).all()]
+        if clips:
+            return make_response(clips, 200)
+        return make_response({'error': 'Clip must have a valid notebook'})
+
+    def post(self, id):
+        pass
+    
+    def delete(self, id):
+        pass
+    
+    def patch(self, id):
+        pass
+
+api.add_resource(ClipsById, '/notebooks/clips/<int:id>')
+    
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
