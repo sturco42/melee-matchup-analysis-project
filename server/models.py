@@ -3,6 +3,7 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
 from config import db, bcrypt
 from sqlalchemy.ext.hybrid import hybrid_property
+import validators
 
 class UserCharacter(db.Model, SerializerMixin):
     __tablename__ = 'user_characters'
@@ -102,7 +103,6 @@ class Notebook(db.Model, SerializerMixin):
     
     character_id = db.Column(db.Integer, db.ForeignKey('characters.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    visible_boolean = db.Column(db.Boolean)
     
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
@@ -119,6 +119,7 @@ class Notebook(db.Model, SerializerMixin):
     
     def __repr__(self):
         return f'Notebook {self.id}, {self.character_id}, {self.user_id}, {self.visible_boolean}'
+
 
 class Interaction(db.Model, SerializerMixin):
     __tablename__ = 'interactions'
@@ -142,12 +143,20 @@ class Note(db.Model, SerializerMixin):
     __tablename__ = 'notes'
     
     id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String)
+    link = db.Column(db.String)
+    text = db.Column(db.String)
     
-    interaction_id = db.Column(db.Integer, db.ForeignKey('interactions.id'))
-    note_text = db.Column(db.String)
+    notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.id'))
     
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+    
+    @validates('link')
+    def validate_link(self, key, link):
+        if not validators.url(link):
+            raise ValueError('Invalid embedded link')
+        return link
     
     def __repr__(self):
         return f'Note {self.id}, {self.interaction_id}' #might want to add a title to each note

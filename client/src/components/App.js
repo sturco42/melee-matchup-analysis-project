@@ -172,7 +172,6 @@ function App() {
 
   return (
     <>
-
       <UserContext.Provider value={user}>
         <Navigation handleLogoutClick={handleLogoutClick} />
         <Switch>
@@ -209,7 +208,6 @@ function App() {
           <Route exact path='/contact-us' component={ContactUs} />
         </Switch>
       </UserContext.Provider>
-
     </>
   );
 }

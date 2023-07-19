@@ -13,6 +13,8 @@ pip install faker
 
 pip install flask
 pip install flask-bcrypt
+
+pip install validators
 # not sure if one below is needed
 pipenv install python-dotenv
 https://morgvanny.com/securing-your-session-key-in-flask/

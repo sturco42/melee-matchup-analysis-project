@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import NoteCard from './NoteCard'
 import { UserContext } from './UserContext'
 
-const Notes = ( {id, onClose} ) => {
+const Notes = ( { id, onClose } ) => {
     const user = useContext(UserContext)
     const [notes, setNotes] = useState([])
     // note data returend from the backend should be in this shape
@@ -29,8 +29,8 @@ const Notes = ( {id, onClose} ) => {
                 // example note.example below
                 <NoteCard
                     title={note.title}
-                    youtubeLink={note.link}
-                    noteData={note.data}
+                    link={note.link}
+                    text={note.text}
                 />
             )
         })}

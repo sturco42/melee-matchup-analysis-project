@@ -3,7 +3,7 @@ import Notes from './Notes'
 import NotebookTitle from './NotebookTitle'
 import { UserContext } from './UserContext'
 
-const Notebooks = ( { notebooksToDisplay, removeNotebook} ) => {
+const Notebooks = ( {notebooksToDisplay, removeNotebook} ) => {
 
     const [notebookIsSelected, setNotebookIsSelected] = useState(false)
     const [selectedNotebook, setSelectedNotebook] = useState(null)
