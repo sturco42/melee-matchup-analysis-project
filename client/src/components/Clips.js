@@ -16,7 +16,7 @@ const Clips = ( { id, onClose } ) => {
     useEffect(() => {
         // fetch clips data by notebook ID
         // on return, run setClips(response)
-        fetch(`/notebooks/clips/${id}`)
+        fetch(`/notebooks/${id}clips/`)
         //! create backend for this route
         .then((res) => res.json())
         .then(setClips)
