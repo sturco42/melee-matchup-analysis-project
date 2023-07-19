@@ -253,16 +253,13 @@ class ClipsById(Resource):
         notebook_id = id
         if notebook_id:
             try:
-                # get clip data from form
                 title = data.get('title')
                 link = data.get('link')
                 notes = data.get('notes')
 
-                # Validate that all required data is present
                 if not all([title, link, notes]):
                     return make_response({'error': 'Title, link, and notes are required'}, 400)
 
-                # Create and save the new clip
                 new_clip = Clip(title=title, link=link, notes=notes, notebook_id=notebook_id)
                 db.session.add(new_clip)
                 db.session.commit()
@@ -284,8 +281,32 @@ class ClipsById(Resource):
         except Exception as e:
             return make_response({'errors': [str(e)]}, 400)
     
-    def patch(self, id):
-        pass
+    def patch(self, notebook_id, clip_id):
+        data = request.get_json()
+        try:
+            clip = Clip.query.filter_by(notebook_id=notebook_id, id=clip_id).first()
+            if not clip:
+                return make_response({'error': 'Clip not found'}, 404)
+
+            title = data.get('title')
+            link = data.get('link')
+            notes = data.get('notes')
+
+            if not any([title, link, notes]):
+                return make_response({'error': 'At least one field (title, link, or notes) must be provided'}, 400)
+
+            if title:
+                clip.title = title
+            if link:
+                clip.link = link
+            if notes:
+                clip.notes = notes
+
+            db.session.commit()
+
+            return make_response(clip.to_dict(), 200)
+        except Exception as e:
+            return make_response({'errors': [str(e)]}, 400)
 
 api.add_resource(ClipsById, '/notebooks/<int:id>', '/notebooks/<int:notebook_id>/clips/<int:clip_id>')
     
