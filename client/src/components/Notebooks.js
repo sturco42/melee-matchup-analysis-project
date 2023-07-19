@@ -1,13 +1,14 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import Notes from './Notes'
 import NotebookTitle from './NotebookTitle'
+import { UserContext } from './UserContext'
 
-const Notebooks = ( {user, notebooksToDisplay, removeNotebook} ) => {
+const Notebooks = ( { notebooksToDisplay, removeNotebook} ) => {
 
     const [notebookIsSelected, setNotebookIsSelected] = useState(false)
     const [selectedNotebook, setSelectedNotebook] = useState(null)
 
-
+    const user = useContext(UserContext)
 
     const handleClick = (data) => {
         setNotebookIsSelected((currentValue) => !currentValue)

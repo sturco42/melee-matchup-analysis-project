@@ -8,6 +8,7 @@ import SearchChars from './SearchChars'
 import Characters from './Characters'
 import ContactUs from './ContactUs'
 import Notebooks from './Notebooks'
+import { UserContext } from './UserContext'
 
 function App() {
   //! make user useContext ?
@@ -171,42 +172,44 @@ function App() {
 
   return (
     <>
-      <Navigation handleLogoutClick={handleLogoutClick} user={user} />
-      <Switch>
-        <Route exact path='/'>
-          <Home />
-        </Route>
-        <Route exact path='/users/:id'>
-          <Profile
-            user={user}
-            updateUser={updateUser}
-            deleteUser={deleteUser}
-          />
-        </Route>
-        <Route exact path='/characters'>
-          <SearchChars
-            searchChar={searchChar}
-            setSearchChar={setSearchChar}
-            onSearch={onSearch}
-          />
-          <Characters
-            user={user}
-            setChars={setChars}
-            charsToDisplay={charsToDisplay}
-            addUserChar={addUserChar}
-            removeUserChar={removeUserChar}
-            addNotebook={addNotebook}
-            removeNotebook={removeNotebook}
-          />
-        </Route>
-        <Route exact path='/login'>
-          <Authentication user={user} updateUser={updateUser} />
-        </Route>
-        <Route exact path='/notebooks'>
-          <Notebooks notebooksToDisplay={user?.notebooks} removeNotebook={removeNotebook} user={user} />
-        </Route>
-        <Route exact path='/contact-us' component={ContactUs} />
-      </Switch>
+
+      <UserContext.Provider value={user}>
+        <Navigation handleLogoutClick={handleLogoutClick} />
+        <Switch>
+          <Route exact path='/'>
+            <Home />
+          </Route>
+          <Route exact path='/users/:id'>
+            <Profile
+              updateUser={updateUser}
+              deleteUser={deleteUser}
+            />
+          </Route>
+          <Route exact path='/characters'>
+            <SearchChars
+              searchChar={searchChar}
+              setSearchChar={setSearchChar}
+              onSearch={onSearch}
+            />
+            <Characters
+              setChars={setChars}
+              charsToDisplay={charsToDisplay}
+              addUserChar={addUserChar}
+              removeUserChar={removeUserChar}
+              addNotebook={addNotebook}
+              removeNotebook={removeNotebook}
+            />
+          </Route>
+          <Route exact path='/login'>
+            <Authentication updateUser={updateUser} />
+          </Route>
+          <Route exact path='/notebooks'>
+            <Notebooks notebooksToDisplay={user?.notebooks} removeNotebook={removeNotebook} />
+          </Route>
+          <Route exact path='/contact-us' component={ContactUs} />
+        </Switch>
+      </UserContext.Provider>
+
     </>
   );
 }

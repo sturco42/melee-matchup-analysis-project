@@ -1,13 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Button, Message, Card } from 'semantic-ui-react'
+import { UserContext } from './UserContext'
 import UpdateUserForm from './UpdateUserForm'
 
-const Profile = ( {user, updateUser, deleteUser} ) => {
+const Profile = ( {updateUser, deleteUser} ) => {
     const [showForm, setShowForm] = useState(true)
 
     const toggleForm = () => {
         setShowForm((current) => !current)
     }
+
+    const user = useContext(UserContext)
 
     return (
         <div>

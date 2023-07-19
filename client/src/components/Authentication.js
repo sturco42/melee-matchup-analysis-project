@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useFormik } from 'formik'
 import { Form, Button, Message, Card } from 'semantic-ui-react'
 import * as yup from 'yup'
+import { UserContext } from './UserContext'
 
-const Authentication = ({ user, updateUser }) => {
+const Authentication = ({ updateUser }) => {
     const [signUp, setSignUp] = useState(false)
     const [errors, setErrors] = useState([])
-
+    const user = useContext(UserContext)
     const history = useHistory()
 
     const handleClick = () => setSignUp((signUp) => !signUp)

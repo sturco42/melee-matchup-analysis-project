@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { Menu, Container } from 'semantic-ui-react'
+import { UserContext } from './UserContext'
 
-const Navigation = ({ user, handleLogoutClick }) => {
+const Navigation = ({ handleLogoutClick }) => {
     const location = useLocation();
-
+    const user = useContext(UserContext)
     useEffect(() => {
     }, [location]);
 

@@ -1,11 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import CharCard from './CharCard'
+import { UserContext } from './UserContext'
 // import { useHistory, useParams } from 'react-router-dom'
 // import { Card, Button, Container, CardContent } from 'semantic-ui-react'
 
-const Characters = ( {charsToDisplay, user, addUserChar, removeUserChar, addNotebook, removeNotebook} ) => {
+const Characters = ( {charsToDisplay, addUserChar, removeUserChar, addNotebook, removeNotebook} ) => {
     
+    const user = useContext(UserContext)
+
     const mappedChars = charsToDisplay.map((char) => {
+
+        
         return (
             <CharCard
                 key={char.id}
