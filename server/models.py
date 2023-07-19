@@ -160,16 +160,3 @@ class Note(db.Model, SerializerMixin):
     
     def __repr__(self):
         return f'Note {self.id}, {self.interaction_id}' #might want to add a title to each note
-    
-class Clip(db.Model, SerializerMixin):
-    
-    id = db.Column(db.Integer, primary_key=True)
-    
-    note_id = db.Column(db.Integer, db.ForeignKey('notes.id'))
-    embeded_text = db.Column(db.String, unique=True)
-    
-    created_at = db.Column(db.DateTime, server_default=db.func.now())
-    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
-    
-    def __repr__(self):
-        return f'Notebook {self.id}, {self.note_id}'
