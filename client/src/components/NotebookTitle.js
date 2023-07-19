@@ -4,9 +4,9 @@ import { useParams, useHistory } from 'react-router-dom'
 
 const NotebookTitle = ( {user, id, character, removeNotebook} ) => {
     // console.log(character)
-    const [note, setNote] = useState({notebooks:[]})
+    // const [note, setNote] = useState({notebooks:[]})
     const [error, setError] = useState(null)
-    const {noteId} = useParams()
+    // const {noteId} = useParams()
     const history = useHistory()
     
     const consoleLog = () => {

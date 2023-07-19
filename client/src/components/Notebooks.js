@@ -9,6 +9,11 @@ const Notebooks = ( {user, notebooksToDisplay, removeNotebook} ) => {
 
 
 
+    const handleClick = (data) => {
+        setNotebookIsSelected((currentValue) => !currentValue)
+        setSelectedNotebook(data)
+    }
+    
     // console.log(notebooksToDisplay)
     //! map notebook titles here to display in return
     const mappedNotebooks = notebooksToDisplay?.map((notebook) => {
@@ -20,6 +25,7 @@ const Notebooks = ( {user, notebooksToDisplay, removeNotebook} ) => {
                 {...notebook}
                 user={user}
                 removeNotebook={removeNotebook}
+                onClick={handleClick}
             />
         )
     })
