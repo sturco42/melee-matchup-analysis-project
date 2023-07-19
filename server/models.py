@@ -105,7 +105,7 @@ class Notebook(db.Model, SerializerMixin):
     
     character = db.relationship('Character', back_populates='notebooks')
     user = db.relationship('User', back_populates='notebooks')
-    clips = db.relationship('Clip', back_populates='notebook')
+    clips = db.relationship('Clip', back_populates='notebook', cascade='all')
     
     serialize_only = ('id', 'character.name', 'character_id', 'user.username',  'user_id')
     serialize_rules = ()
@@ -119,7 +119,7 @@ class Clip(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
     link = db.Column(db.String)
-    text = db.Column(db.String)
+    notes = db.Column(db.String)
     
     notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.id'))
     
@@ -128,11 +128,18 @@ class Clip(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
     
-    @validates('link')
-    def validate_link(self, key, link):
-        if not validators.url(link):
-            raise ValueError('Invalid embedded link')
-        return link
+    @validates('notebook_id')
+    def validate_notebook_id(self, key, notebook_id):
+        # Check if the notebook_id exists in the notebooks table
+        if not Notebook.query.get(notebook_id):
+            raise ValueError(f"Notebook with ID {notebook_id} does not exist.")
+        return notebook_id
+    
+    # @validates('link')
+    # def validate_link(self, key, link):
+    #     if not validators.url(link):
+    #         raise ValueError('Invalid embedded link')
+    #     return link
     
     def __repr__(self):
         return f'Note {self.id}, {self.title}, {self.notebook_id}'
