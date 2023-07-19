@@ -121,9 +121,6 @@ const Authentication = ({ updateUser }) => {
                 </Card.Content>
                 <Card.Content>
                     {user ? null : <Button onClick={handleClick} >{signUp ? 'Login' : 'Create an Account'}</Button>}
-                    {/* <Button onClick={handleClick} >
-                        {signUp ? 'Login' : 'Create an Account'}
-                    </Button> */}
                 </Card.Content>
             </Card>
         </div>
