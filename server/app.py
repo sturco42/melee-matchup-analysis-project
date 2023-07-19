@@ -185,8 +185,6 @@ class Notebooks(Resource):
         if 'user_id' in session:
             try:
                 character_id = request.get_json()['id']
-                
-                # Check if a notebook already exists for the given character_id
                 existing_notebook = Notebook.query.filter_by(
                     user_id=session['user_id'], character_id=character_id
                 ).first()
@@ -212,10 +210,7 @@ api.add_resource(Notebooks, '/notebooks')
 class NotebookById(Resource):
     
     def get(self, id):
-        # notebook = db.session.get(Notebook, id)
-
         notebooks = [notebook.to_dict() for notebook in Notebook.query.filter_by(user_id = id).all()]
-        
         if notebooks:
             return make_response(notebooks, 200)
         return make_response({'error': 'Notebook must have a valid user and valid character'}, 404)

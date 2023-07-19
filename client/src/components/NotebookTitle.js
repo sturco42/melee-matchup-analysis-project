@@ -1,8 +1,7 @@
-// imports
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
-const NotebookTitle = ( { id, character, removeNotebook, onClick} ) => {
+const NotebookTitle = ( {id, character, removeNotebook, onClick} ) => {
     const [error, setError] = useState(null)
     
     const history = useHistory()

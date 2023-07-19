@@ -9,6 +9,7 @@ import Characters from './Characters'
 import ContactUs from './ContactUs'
 import Notebooks from './Notebooks'
 import { UserContext } from './UserContext'
+import Clips from './Clips'
 
 function App() {
   const [user, setUser] = useState(null)
@@ -155,6 +156,7 @@ function App() {
           <Route exact path='/notebooks'>
             <Notebooks notebooksToDisplay={user?.notebooks} removeNotebook={removeNotebook} user={user} />
           </Route>
+          <Route exact path='/notebooks/:id/clips/:clipId' component={Clips} />
           <Route exact path='/contact-us' component={ContactUs} />
         </Switch>
       </UserContext.Provider>

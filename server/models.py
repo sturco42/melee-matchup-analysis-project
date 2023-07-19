@@ -107,7 +107,7 @@ class Notebook(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates='notebooks')
     clips = db.relationship('Clip', back_populates='notebook', cascade='all')
     
-    serialize_only = ('id', 'character.name', 'character_id', 'user.username',  'user_id')
+    serialize_only = ('id', 'character.name', 'character_id', 'user.username',  'user_id', 'clips')
     serialize_rules = ()
     
     def __repr__(self):
@@ -128,6 +128,7 @@ class Clip(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
     
+    serialize_only = ('id', 'title')
     @validates('notebook_id')
     def validate_notebook_id(self, key, notebook_id):
         # Check if the notebook_id exists in the notebooks table

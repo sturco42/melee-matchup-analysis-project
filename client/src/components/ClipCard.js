@@ -1,6 +1,6 @@
 // imports
 
-const ClipCard = ({ title, link, notes }) => {
+const ClipCard = ( {id, title, link, notes} ) => {
 
   
   return (
@@ -8,7 +8,6 @@ const ClipCard = ({ title, link, notes }) => {
       <div>{title}</div>
       <div>{link}</div>
       <div>{notes}</div>
-      
     </>
   );
 };
