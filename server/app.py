@@ -248,7 +248,28 @@ class ClipsById(Resource):
         return make_response({'error': 'Clip must have a valid notebook'})
 
     def post(self, id):
-        pass
+        data = request.get_json()
+        try:
+            # get the notebook_id
+            notebook_id = id
+            
+            # get clip data from form
+            title = data.get('title')
+            link = data.get('link')
+            notes = data.get('notes')
+
+            # Validate that all required data is present
+            if not all([title, link, notes]):
+                return make_response({'error': 'Title, link, and notes are required'}, 400)
+
+            # Create and save the new clip
+            new_clip = Clip(title=title, link=link, notes=notes, notebook_id=notebook_id)
+            db.session.add(new_clip)
+            db.session.commit()
+            
+            return make_response(new_clip.to_dict(), 201)
+        except Exception as e:
+            return make_response({'errors': [str(e)]}, 400)
     
     def delete(self, id):
         pass
