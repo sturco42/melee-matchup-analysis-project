@@ -1,6 +1,8 @@
+import React, {useState} from 'react'
 import NotebookTitle from './NotebookTitle'
 
 const Notebooks = ( {user, notebooksToDisplay, removeNotebook} ) => {
+
 
     // console.log(notebooksToDisplay)
     //! map notebook titles here to display in return
