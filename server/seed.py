@@ -5,7 +5,7 @@ from faker import Faker
 from flask import Flask
 
 from app import app
-from models import db, UserCharacter, User, Character, Notebook, Interaction, Note, Clip
+from models import db, UserCharacter, User, Character, Notebook, Clip
 
 import bcrypt
 
@@ -211,8 +211,6 @@ if __name__ == '__main__':
         User.query.delete()
         Character.query.delete()
         Notebook.query.delete()
-        Interaction.query.delete()
-        Note.query.delete()
         Clip.query.delete()
         
         print('Creating users...')

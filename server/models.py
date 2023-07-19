@@ -84,11 +84,7 @@ class Character(db.Model, SerializerMixin):
     
     user_characters = db.relationship('UserCharacter', back_populates='character', cascade='all')
     users = association_proxy('user_characters', 'user')
-
-    # notebooks = association_proxy('interactions', 'notebook')
-    #! new
     notebooks = db.relationship('Notebook', back_populates='character')
-    interactions = db.relationship('Interaction', back_populates='character')
     
     serialize_only = ('id', 'name')
     serialize_rules = ()
@@ -126,6 +122,8 @@ class Clip(db.Model, SerializerMixin):
     text = db.Column(db.String)
     
     notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.id'))
+    
+    notebook = db.relationship('Notebook', back_populates='clips')
     
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())

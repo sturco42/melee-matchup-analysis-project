@@ -2,7 +2,7 @@ from flask import request, make_response, session
 from flask_restful import Resource
 import bcrypt
 
-from models import db, UserCharacter, User, Character, Notebook
+from models import db, UserCharacter, User, Character, Notebook, Clip
 
 from config import app, db, api
 
