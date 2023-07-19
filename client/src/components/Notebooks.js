@@ -5,7 +5,7 @@ import NotebookTitle from './NotebookTitle'
 const Notebooks = ( {user, notebooksToDisplay, removeNotebook} ) => {
 
     const [notebookIsSelected, setNotebookIsSelected] = useState(false)
-    const [selectedNotebook, setSelectedNotebook] = useState({})
+    const [selectedNotebook, setSelectedNotebook] = useState(null)
 
 
 
@@ -33,7 +33,7 @@ const Notebooks = ( {user, notebooksToDisplay, removeNotebook} ) => {
     return (
         //! will be notebook titles below as a variable and mapped above
         <div>
-            {notebookIsSelected ? <Notes /> : notebooksToDisplay ? <div>{mappedNotebooks}</div> : null}
+            {notebookIsSelected ? <Notes id={selectedNotebook} onClose={handleClick} /> : notebooksToDisplay ? <div>{mappedNotebooks}</div> : null}
         </div>
     )
 }

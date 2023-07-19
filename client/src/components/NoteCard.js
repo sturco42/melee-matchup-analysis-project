@@ -1,4 +1,6 @@
 const NoteCard = ({ title, youtubeLink, notes }) => {
+
+  
   return (
     <>
       <div>{title}</div>
@@ -8,3 +10,5 @@ const NoteCard = ({ title, youtubeLink, notes }) => {
     </>
   );
 };
+
+export default NoteCard

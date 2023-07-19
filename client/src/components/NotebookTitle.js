@@ -2,15 +2,15 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 
-const NotebookTitle = ( {user, id, character, removeNotebook} ) => {
+const NotebookTitle = ( {user, id, character, removeNotebook, onClick} ) => {
     // console.log(character)
     // const [note, setNote] = useState({notebooks:[]})
     const [error, setError] = useState(null)
     // const {noteId} = useParams()
     const history = useHistory()
     
-    const consoleLog = () => {
-        return ((console.log(id)))
+    const handleOnClick = () => {
+        onClick(id)
     }
 
     // useEffect(() => {
@@ -40,15 +40,12 @@ const NotebookTitle = ( {user, id, character, removeNotebook} ) => {
         })
         .catch(console.error)
     }
-
-    const handleClick = () => {
-    }
     
     if(error) return <h3>{error}</h3>
 
     return (
         <div>
-           <button onClick={consoleLog}>{character.name}</button>
+           <button onClick={handleOnClick}>{character.name}</button>
            <button onClick={handleDeleteNotebook}>Delete Notebook</button>
         </div>
     )
