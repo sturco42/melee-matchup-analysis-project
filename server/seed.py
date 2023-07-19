@@ -192,32 +192,15 @@ def create_user_characters(users, characters):
 def create_notebooks(users, characters):
     notebooks = []
     for _ in range(10):
-        result = random.choice([True, False])
         notebook = Notebook(
             user_id = rc([user.id for user in users]),
             character_id = rc([character.id for character in characters]),
-            visible_boolean = result
         )
         notebooks.append(notebook)
     return notebooks
 
 #! unfinished
-# def create_interactions(self):
-#     types = ['neutral', 'punish', 'tech skill', 'defense']
-#     interactions = []
-#     for type in types:
-#         Interaction(
-#             character_id = 
-#             notebook_id =
-#             type = [type_of for type_of in types]
-#         )
-#         interactions.append(type)
-#     return interactions
-
 # def create_notes():
-#     pass
-
-# def create_clips():
 #     pass
 
 if __name__ == '__main__':
@@ -252,17 +235,7 @@ if __name__ == '__main__':
         db.session.add_all(notebooks)
         db.session.commit()
         
-        # print('Creating interactions...')
-        # interactions = create_interactions()
-        # db.session.add_all(interactions)
-        # db.session.commit()
-        
         # print('Creating notes...')
         # notes = create_notes()
         # db.session.add_all(notes)
-        # db.session.commit()
-        
-        # print('Creating clips...')
-        # clips = create_clips()
-        # db.session.add_all(clips)
         # db.session.commit()

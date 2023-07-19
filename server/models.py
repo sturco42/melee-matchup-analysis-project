@@ -109,38 +109,16 @@ class Notebook(db.Model, SerializerMixin):
     
     character = db.relationship('Character', back_populates='notebooks')
     user = db.relationship('User', back_populates='notebooks')
-    
-    # characters = association_proxy('interactions', 'character')
-    #! new
-    interactions = db.relationship('Interaction', back_populates='notebook')
+    clips = db.relationship('Clip', back_populates='notebook')
     
     serialize_only = ('id', 'character.name', 'character_id', 'user.username',  'user_id')
     serialize_rules = ()
     
     def __repr__(self):
-        return f'Notebook {self.id}, {self.character_id}, {self.user_id}, {self.visible_boolean}'
+        return f'Notebook {self.id}, {self.character_id}, {self.user_id}'
 
-
-class Interaction(db.Model, SerializerMixin):
-    __tablename__ = 'interactions'
-    
-    id = db.Column(db.Integer, primary_key=True)
-    
-    character_id = db.Column(db.Integer, db.ForeignKey('characters.id'))
-    notebook_id = db.Column(db.Integer, db.ForeignKey('notebooks.id'))
-    type_of = db.Column(db.String)
-    
-    created_at = db.Column(db.DateTime, server_default=db.func.now())
-    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
-    
-    character = db.relationship('Character', back_populates='interactions')
-    notebook = db.relationship('Notebook', back_populates='interactions')
-    
-    def __repr__(self):
-        return f'Interaction {self.id}, {self.user_id}, {self.visible_boolean}, {self.type}'
-
-class Note(db.Model, SerializerMixin):
-    __tablename__ = 'notes'
+class Clip(db.Model, SerializerMixin):
+    __tablename__ = 'clips'
     
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
@@ -159,4 +137,4 @@ class Note(db.Model, SerializerMixin):
         return link
     
     def __repr__(self):
-        return f'Note {self.id}, {self.interaction_id}' #might want to add a title to each note
+        return f'Note {self.id}, {self.title}, {self.notebook_id}'
