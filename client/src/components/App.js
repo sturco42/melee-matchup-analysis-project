@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Switch, Route, useHistory, useParams } from 'react-router-dom'
+import { Switch, Route, useHistory } from 'react-router-dom'
 import Navigation from './Navigation'
 import Profile from './Profile'
 import Authentication from './Authentication'
@@ -11,30 +11,11 @@ import Notebooks from './Notebooks'
 import { UserContext } from './UserContext'
 
 function App() {
-  //! make user useContext ?
   const [user, setUser] = useState(null)
   const [chars, setChars] = useState([])
   const [searchChar, setSearchChar] = useState('')
   const history = useHistory()
-  // const { id } = useParams()
-  // const { userCharId } = useParams()
-  // const [userChar, setUserChar] = useState([])
-  const [notebooks, setNotebooks] = useState([])
 
-  // const notebooksToDisplay = notebooks.filter((notebook) => {
-
-  // return (console.log(user?.username))
-  // if (notebook.user?.username === user?.username) {
-  //   return (console.log('hello'))
-  // } else {
-  //   return (null)
-  // }
-
-  // return (notebook.user_id === user?.id)
-  // })
-
-  // this should just be a function that's called inside the useeffect we declare below
-  //! CHARACTERS START
   useEffect(() => {
     fetch('/characters')
       .then((res) => res.json())
@@ -80,7 +61,6 @@ function App() {
     }))
   }
 
-  //! USERS START
   const updateUser = (user) => {
     setUser(user);
   };
@@ -134,41 +114,9 @@ function App() {
     fetchUser();
   }, []);
 
-  const updateNotebooks = () => {
-    // fetchUserNotebooks(user);
-  }
-
   const setInitialUser = (userToFetch) => {
-    // fetchUserNotebooks(userToFetch);
     setUser(userToFetch);
   };
-
-  // const fetchUserNotebooks = (userToFetch) => {
-  //   //console.log('we are about to fetch our note book and heres the user id')
-  //   //console.log(userToFetch.id)
-
-  //   fetch(`/notebooks/${userToFetch.id}`)
-  //     .then((res) => {
-  //       return res.json();
-  //     })
-  //     .then((serializedNotebook) => {
-  //       setNotebooks(serializedNotebook)
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
-
-  //! NOTEBOOKS INFO START
-  // useEffect(() => {
-  //   console.log('our user')
-  //   console.log(user)
-  //   fetch(`/notebooks/${user.id}`)
-  //     .then((res) => {
-  //       console.log('we got our notebook back');
-  //        console.log(res);
-  //         return res.json()})
-  //     .then(setNotebooks)
-  //     .catch((err) => console.log(err))
-  // }, [])
 
   return (
     <>
