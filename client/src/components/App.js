@@ -122,14 +122,13 @@ function App() {
   return (
     <>
       <UserContext.Provider value={user}>
-        <Navigation handleLogoutClick={handleLogoutClick} user={user} />
+        <Navigation handleLogoutClick={handleLogoutClick} />
         <Switch>
           <Route exact path='/'>
             <Home />
           </Route>
           <Route exact path='/users/:id'>
             <Profile
-              user={user}
               updateUser={updateUser}
               deleteUser={deleteUser}
             />
@@ -141,7 +140,6 @@ function App() {
               onSearch={onSearch}
             />
             <Characters
-              user={user}
               setChars={setChars}
               charsToDisplay={charsToDisplay}
               addUserChar={addUserChar}
@@ -151,12 +149,12 @@ function App() {
             />
           </Route>
           <Route exact path='/login'>
-            <Authentication user={user} updateUser={updateUser} />
+            <Authentication updateUser={updateUser} />
           </Route>
           <Route exact path='/notebooks'>
-            <Notebooks notebooksToDisplay={user?.notebooks} removeNotebook={removeNotebook} user={user} />
+            <Notebooks notebooksToDisplay={user?.notebooks} removeNotebook={removeNotebook} />
           </Route>
-          <Route exact path='/notebooks/:id/clips/:clipId' component={Clips} />
+          <Route exact path='/notebooks/:id/clips/:id' component={Clips} />
           <Route exact path='/contact-us' component={ContactUs} />
         </Switch>
       </UserContext.Provider>

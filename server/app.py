@@ -236,16 +236,17 @@ api.add_resource(NotebookById, '/notebooks/<int:id>')
 
 class ClipsById(Resource):
     
-    def get(self, id):
-        clips = [clip.to_dict() for clip in Clip.query.filter_by(notebook_id = id).all()]
+    def get(self, notebook_id):
+        
+        clips = [clip.to_dict() for clip in Clip.query.filter_by(notebook_id = notebook_id).all()]
         if clips:
             return make_response(clips, 200)
         return make_response({'error': 'Clip must have a valid notebook'})
 
-    def post(self, id):
+    def post(self, notebook_id):
         data = request.get_json()
         
-        notebook_id = id
+        notebook_id = notebook_id
         if notebook_id:
             try:
                 title = data.get('title')
@@ -279,7 +280,8 @@ class ClipsById(Resource):
     def patch(self, notebook_id, clip_id):
         data = request.get_json()
         try:
-            clip = Clip.query.filter_by(notebook_id=notebook_id, id=clip_id).first()
+
+            clip = Clip.query.filter_by(notebook_id=notebook_id, clip_id=clip_id).first()
             if not clip:
                 return make_response({'error': 'Clip not found'}, 404)
 
@@ -303,7 +305,7 @@ class ClipsById(Resource):
         except Exception as e:
             return make_response({'errors': [str(e)]}, 400)
 
-api.add_resource(ClipsById, '/notebooks/<int:id>', '/notebooks/<int:notebook_id>/clips/<int:clip_id>')
+api.add_resource(ClipsById, '/notebooks/<int:notebook_id>/clips', '/notebooks/<int:notebook_id>/clips/<int:clip_id>')
     
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

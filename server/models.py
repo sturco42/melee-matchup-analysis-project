@@ -128,7 +128,9 @@ class Clip(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
     
-    serialize_only = ('id', 'title')
+    serialize_only = ('id', 'title', 'link', 'notes')
+    serialize_rules = ()
+    
     @validates('notebook_id')
     def validate_notebook_id(self, key, notebook_id):
         # Check if the notebook_id exists in the notebooks table

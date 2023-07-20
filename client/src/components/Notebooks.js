@@ -1,24 +1,25 @@
 import React, { useState, useContext } from 'react'
 import Clips from './Clips'
+// import ClipCard from './ClipCard'
 import NotebookTitle from './NotebookTitle'
 import { UserContext } from './UserContext'
-import { useParams } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
 
 const Notebooks = ( {notebooksToDisplay, removeNotebook} ) => {
 
     const [notebookIsSelected, setNotebookIsSelected] = useState(false)
     const [selectedNotebook, setSelectedNotebook] = useState(null)
     //! NEW
-    const [selectedClipId, setSelectedClipId] = useState(null)
+    // const [selectedClipId, setSelectedClipId] = useState(null)
 
-    const { clipId } = useParams()
+    // const { clipId } = useParams()
 
     const user = useContext(UserContext)
 
-    const handleClick = (data, clipId) => {
+    const handleClick = (data) => {
         setNotebookIsSelected((currentValue) => !currentValue)
         setSelectedNotebook(data)
-        setSelectedClipId(clipId)
+        // setSelectedClipId(clipId)
     }
 
     const mappedNotebooks = notebooksToDisplay?.map((notebook) => {
@@ -26,9 +27,9 @@ const Notebooks = ( {notebooksToDisplay, removeNotebook} ) => {
             <NotebookTitle 
                 key={notebook.id}
                 {...notebook}
-                user={user}
                 removeNotebook={removeNotebook}
-                onClick={() => handleClick(notebook, clipId)}
+                // took out clipId from paramater below
+                onClick={() => handleClick(notebook)}
             />
         )
     })
@@ -37,8 +38,8 @@ const Notebooks = ( {notebooksToDisplay, removeNotebook} ) => {
         <div>
             {notebookIsSelected ?
                 <Clips
-                    id={selectedNotebook}
-                    clipId={selectedClipId}
+                    notebook_id={selectedNotebook.id}
+                    // clipId={selectedClipId}
                     onClose={handleClick}
                 />
                 : notebooksToDisplay ? <div>{mappedNotebooks}</div> : null}

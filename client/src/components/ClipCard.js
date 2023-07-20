@@ -1,13 +1,25 @@
 // imports
+import React, { useState } from 'react'
+import { Button, Header, Image, Modal } from 'semantic-ui-react'
+import ClipModal from './ClipModal';
 
-const ClipCard = ( {id, title, link, notes} ) => {
+const ClipCard = ( {title, link, notes} ) => {
+  const [open, setOpen] = useState(false)
 
-  
+  const handleClick = () => {
+    setOpen(currentValue => !currentValue)
+  }
+
   return (
     <>
-      <div>{title}</div>
-      <div>{link}</div>
-      <div>{notes}</div>
+      <button onClick={handleClick} >{title}</button>
+      <ClipModal
+        open={open}
+        handleClick={handleClick}
+        title={title}
+        link={link}
+        notes={notes}
+      />
     </>
   );
 };

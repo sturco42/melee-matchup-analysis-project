@@ -2,16 +2,16 @@ import React, { useEffect, useState, useContext } from 'react'
 import ClipCard from './ClipCard'
 import { UserContext } from './UserContext'
 
-const Clips = ( {id, clipId, onClose} ) => {
+const Clips = ( {notebook_id, onClose} ) => {
     const user = useContext(UserContext)
     const [clips, setClips] = useState([])
-
+    
     useEffect(() => {
-        fetch(`/notebooks/${id}clips/${clipId}`)
+        fetch(`/notebooks/${notebook_id}/clips`)
         .then((res) => res.json())
         .then(setClips)
         .catch((err) => console.log(err));
-    }, [id, clipId])
+    }, [notebook_id])
 
     // const handleDeleteClip = () => {
     //     // Make the DELETE request using the clipId and notebook id (id)
@@ -31,21 +31,20 @@ const Clips = ( {id, clipId, onClose} ) => {
     //         //! Handle any errors in the DELETE request needs to be doen
     //         });
     //     };
+
     
+    const mappedClips = clips.map((clip) => {
+        return (
+            <ClipCard
+                key={clip.id}
+                {...clip}
+            />
+        )
+    })
+
     return (
         <>
-            {user.notebooks?.clips?.map((clip) => {
-                return (
-                    // example clip.example below
-                    <ClipCard
-                        key={clip.id}
-                        notebook_id={id}
-                        title={clip.title}
-                        link={clip.link}
-                        notes={clip.notes}
-                    />
-                )
-            })}
+            {mappedClips}
             <button>Add clip</button>
             <button onClick={onClose}>Return to Profile</button>
         </>
