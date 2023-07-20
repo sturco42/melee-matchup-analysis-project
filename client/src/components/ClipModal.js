@@ -7,6 +7,10 @@ const ClipModal = ( {title, link, notes, open, handleClick}) => {
         return { __html: htmlString };
     };
 
+    const handleEditNotes = () => {
+        console.log('logic for edit')
+    }
+
     return (
         <Modal
             open={open}
@@ -17,6 +21,7 @@ const ClipModal = ( {title, link, notes, open, handleClick}) => {
                 <div dangerouslySetInnerHTML={createMarkup(link)}/>
                 {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/WbccsiviTc0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>hello</iframe> */}
                 <Modal.Description>{notes}</Modal.Description>
+                <Button onClick={handleEditNotes}>Edit Notes</Button>
             </Modal.Content>
         </Modal>
     )
