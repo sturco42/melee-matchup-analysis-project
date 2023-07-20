@@ -1,8 +1,9 @@
 // For a fully working example, please see:
 // https://github.com/paypal-examples/docs-examples/tree/main/standard-integration
+require('dotenv').config();
 
-const CLIENT_ID = AUlw-aO8IxXOxTLBbFZiIR1UOmAVBmpMffDpXdDUIDhqIkJCcIu3jsN8GjQYrMMXmg7jXttVrpxsLPAo
-const APP_SECRET = EG77Gtwq7400G4b7YRmeO-dTaGgp4OSWrYRQ9qttPCKdXEQRgGDis2lcCPAtUl_x4y6Q_H3NTyXVQKp9
+const CLIENT_ID = process.env.CLIENT_ID;
+const APP_SECRET = process.env.APP_SECRET;
 
 const baseURL = {
     sandbox: "https://api-m.sandbox.paypal.com",
