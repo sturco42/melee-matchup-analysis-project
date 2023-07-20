@@ -1,4 +1,5 @@
 # installs
+npm install dotenv
 
 # client installs
 npm install react-scripts
@@ -6,6 +7,7 @@ npm install semantic-ui-css
 npm install semantic-ui-react
 npm install react-router-dom
 npm install formik yup
+
 
 # server installs
 pipenv install faker
@@ -15,6 +17,7 @@ pip install flask
 pip install flask-bcrypt
 
 pip install validators
+npm install express node-fetch
 # not sure if one below is needed
 pipenv install python-dotenv
 https://morgvanny.com/securing-your-session-key-in-flask/
