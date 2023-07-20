@@ -1,8 +1,14 @@
+import React, { useEffect } from 'react';
+
 const ContactUs = () => {
-    
+        
+
     return (
         <div>
-            Link to twitter and more about Sam Turco
+            <div>
+                Link to twitter and more about Sam Turco
+            </div>
+            
         </div>
     )
 }
