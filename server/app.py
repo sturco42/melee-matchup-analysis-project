@@ -281,7 +281,7 @@ class ClipsById(Resource):
         data = request.get_json()
         try:
 
-            clip = Clip.query.filter_by(notebook_id=notebook_id, clip_id=clip_id).first()
+            clip = Clip.query.filter_by(notebook_id=notebook_id, id=clip_id).first()
             if not clip:
                 return make_response({'error': 'Clip not found'}, 404)
 
