@@ -29,19 +29,37 @@ const Clips = ( {notebook_id, onClose} ) => {
                 // Handle the error if deletion fails
                 }
             })
-            .catch((err) => {
+            .catch((error) => {
             //! Handle any errors in the DELETE request needs to be doen
             });
         };
 
+        // const handleUpdateClip = (clipId) => {
+        //     fetch(`/notebooks/${notebook_id}/clips/${clipId}`, {
+        //         method: 'PATCH',
+        //     })
+        //     .then((res) => {
+        //         if (res.status === 200) {
+        //             alert('Successfully updated clip')
+        //         } else {
+        //             //handle error
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         //! handle errors
+        //     })
+        // }
     
+
     const mappedClips = clips.map((clip) => {
-        return (
-            <ClipCard
-                key={clip.id}
-                {...clip}
-                onDelete={handleDeleteClip}
-            />
+            return (
+                <ClipCard
+                    key={clip.id}
+                    {...clip}
+                    onDelete={handleDeleteClip}
+                    // onUpdate={handleUpdateClip}
+                    notebook_id={notebook_id}
+                />
         )
     })
 
