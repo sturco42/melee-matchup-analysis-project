@@ -71,32 +71,34 @@ const Authentication = ({ updateUser }) => {
                             <Form.Field>
                                 <label>Username:</label>
                                 <input
-                                    placeholder='Username'
-                                    type='text'
-                                    name='username'
-                                    value={formik.values.username}
-                                    onChange={formik.handleChange}
-                                    className={
-                                      formik.errors.username && formik.touched.username
-                                        ? 'error'
-                                        : ''
-                                    }
+                                  label='Username'
+                                  placeholder='Username'
+                                  type='text'
+                                  name='username'
+                                  value={formik.values.username}
+                                  onChange={formik.handleChange}
+                                  className={
+                                    formik.errors.username && formik.touched.username
+                                      ? 'error'
+                                      : ''
+                                  }
                                 />
                                 {formik.errors.username && formik.touched.username && (<Message negative content={formik.errors.username} />)}
                             </Form.Field>
                             <Form.Field>
                                 <label>Password:</label>
                                 <input
-                                    placeholder='Password'
-                                    type='password'
-                                    name='password'
-                                    value={formik.values.password}
-                                    onChange={formik.handleChange}
-                                    className={
-                                        formik.errors.password && formik.touched.password
-                                        ? 'error'
-                                        : ''
-                                    }
+                                  label='Password'
+                                  placeholder='Password'
+                                  type='password'
+                                  name='password'
+                                  value={formik.values.password}
+                                  onChange={formik.handleChange}
+                                  className={
+                                      formik.errors.password && formik.touched.password
+                                      ? 'error'
+                                      : ''
+                                  }
                                 />
                                 {formik.errors.password && formik.touched.password && (<Message negative content={formik.errors.password} />)}
                             </Form.Field>

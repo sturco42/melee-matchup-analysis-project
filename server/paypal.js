@@ -6,21 +6,21 @@ const CLIENT_ID = process.env.CLIENT_ID;
 const APP_SECRET = process.env.APP_SECRET;
 
 const baseURL = {
-    sandbox: "https://api-m.sandbox.paypal.com",
-    production: "https://api-m.paypal.com"
+    sandbox: 'https://api-m.sandbox.paypal.com',
+    production: 'https://api-m.paypal.com'
 };
 
 // allow json body
 app.use(express.json());
 
 // create a new order
-app.post("/create-paypal-order", async (req, res) => {
+app.post('/create-paypal-order', async (req, res) => {
   const order = await createOrder();
   res.json(order);
 });
 
 // capture payment & store order information or fullfill order
-app.post("/capture-paypal-order", async (req, res) => {
+app.post('/capture-paypal-order', async (req, res) => {
   const { orderID } = req.body;
   const captureData = await capturePayment(orderID);
   // TODO: store payment information such as the transaction ID
@@ -34,18 +34,18 @@ async function createOrder() {
   const accessToken = await generateAccessToken();
   const url = `${baseURL.sandbox}/v2/checkout/orders`;
   const response = await fetch(url, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify({
-      intent: "CAPTURE",
+      intent: 'CAPTURE',
       purchase_units: [
         {
           amount: {
-            currency_code: "USD",
-            value: "100.00",
+            currency_code: 'USD',
+            value: '5.00',
           },
         },
       ],
@@ -60,9 +60,9 @@ async function capturePayment(orderId) {
   const accessToken = await generateAccessToken();
   const url = `${baseURL.sandbox}/v2/checkout/orders/${orderId}/capture`;
   const response = await fetch(url, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
     },
   });
@@ -72,10 +72,10 @@ async function capturePayment(orderId) {
 
 // generate an access token using client id and app secret
 async function generateAccessToken() {
-  const auth = Buffer.from(CLIENT_ID + ":" + APP_SECRET).toString("base64")
+  const auth = Buffer.from(CLIENT_ID + ':' + APP_SECRET).toString('base64')
   const response = await fetch(`${baseURL.sandbox}/v1/oauth2/token`, {
-    method: "POST",
-    body: "grant_type=client_credentials",
+    method: 'POST',
+    body: 'grant_type=client_credentials',
     headers: {
       Authorization: `Basic ${auth}`,
     },
