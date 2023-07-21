@@ -39,15 +39,21 @@ def signup():
 
 @app.route('/login', methods=['POST'])
 def login():
+    print('we are in the login post')
     try:
         username = request.get_json().get('username')
         password = request.get_json().get('password')
         user = User.query.filter_by(username=username).first()
         if user and bcrypt.checkpw(password.encode('utf-8'), user.password_hash):
             session['user_id'] = user.id
+            
             return make_response(user.to_dict(), 200)
+        elif user and not bcrypt.checkpw(password.encode('utf-8'), user.password_hash):
+            return make_response({'error': 'Incorrect password'}, 401)
+        else:
+            return make_response({'error': 'User does not exist'}, 401)
     except Exception as e:
-        return make_response({'error': str(e)}, 401)
+        return make_response({'error': str(e)}, 500)
 
 @app.route('/logout', methods=['DELETE'])
 def logout():
@@ -131,6 +137,7 @@ class Users(Resource):
     def post(self):
         data = request.get_json()
         try:
+            print('our data', data)
             new_user = User(**data)
             # import ipdb; ipdb.set_trace()
             db.session.add(new_user)
@@ -162,13 +169,28 @@ class UserById(Resource):
         if 'user_id' not in session:
             return make_response({'error': 'Unauthorized'}, 401)
         try:
+            # first check if the username already exists in the db. if it does, throw error
+            # else do rest of stuff here 
+            data = request.get_json()
+            if User.query.filter_by(username=data.get('username')).first():
+                return make_response({'error': 'User already exists in database'}, 401)
             user = User.query.filter_by(id=session.get('user_id')).first()
+            print('we found our user', user)
             if not user:
                 return make_response({'error': 'Cannot find that user in your database'}, 404)
-            data = request.get_json()
+            
+
+            print(' before set', user)
             user.username = data.get('username')
-            user.password = data.get('password')
+            print('after set', user)
+            password = data.get('password')
+            salt = bcrypt.gensalt()
+            hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
+            user.password_hash = hashed_password
+          
+            print('before db commit')
             db.session.commit()
+            print('after db session commit')
             return make_response(user.to_dict(), 200)
         except Exception as e:
             return make_response({'error': str(e)}, 422)
@@ -238,10 +260,12 @@ class ClipsById(Resource):
     
     def get(self, notebook_id):
         
-        clips = [clip.to_dict() for clip in Clip.query.filter_by(notebook_id = notebook_id).all()]
-        if clips:
+        try:
+            clips = [clip.to_dict() for clip in Clip.query.filter_by(notebook_id = notebook_id).all()]
             return make_response(clips, 200)
-        return make_response({'error': 'Clip must have a valid notebook'})
+        except Exception as e:
+            return make_response({'errors': [str(e)]}, 400)
+        #return make_response({'error': 'Clip must have a valid notebook'})
 
     def post(self, notebook_id):
         data = request.get_json()

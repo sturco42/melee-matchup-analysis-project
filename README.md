@@ -1,5 +1,6 @@
 # installs
 npm install dotenv
+.env secret key for new user.
 
 # client installs
 npm install react-scripts

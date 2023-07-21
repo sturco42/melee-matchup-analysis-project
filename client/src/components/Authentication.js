@@ -43,15 +43,19 @@ const Authentication = ({ updateUser }) => {
               });
         
               if (response.ok) {
+                console.log("response OK")
                 const data = await response.json();
                 updateUser(data)
                 resetForm()
                 history.push(`/users/${data.id}`)
               } else {
+                console.log("response not ok")
                 const errorData = await response.json();
+                console.log(errorData)
                 setErrors([errorData.error])
               }
             } catch (error) {
+              console.log("we have an error")
               console.log(error)
             }
           },

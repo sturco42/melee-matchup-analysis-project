@@ -36,6 +36,7 @@ const UpdateUserForm = ({ updateUser, user, toggleForm }) => {
       })
         .then((res) => {
           setSubmitting(false);
+          console.log('we got a return response for user')
           if (res.ok) {
             res.json().then((user) => {
               updateUser(user)
@@ -45,12 +46,17 @@ const UpdateUserForm = ({ updateUser, user, toggleForm }) => {
               // history.push('/users/:id')
             });
           } else {
-            res.json().then((err) => setErrors(err.errors))
+            res.json().then((err) => {
+
+              
+              const myError = {
+                username: err.error
+              }
+              setErrors(myError)})
           }
         })
         .catch((error) => {
           setSubmitting(false)
-          console.error(error)
         })
     },
   })

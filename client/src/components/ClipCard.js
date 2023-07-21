@@ -16,9 +16,12 @@ const ClipCard = ( {title, link, notes, onDelete, id, notebook_id, onUpdate} ) =
 
   }
 
-  // const handleUpdate = () => {
-  //   onUpdate()
-  // }
+  const handleUpdate = () => {
+    // we need to pass to onUpdate the following props
+    // clipId, clipObject = {link:'updateLink', notes:'updateNotes', title:'updatedTitle}
+    // then call onUpdate(clipId, clipObject)
+    onUpdate()
+  }
 
   return (
     <>
