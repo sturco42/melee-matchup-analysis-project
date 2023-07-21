@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-// import { Button, Header, Image, Modal } from 'semantic-ui-react'
 import ClipModal from './ClipModal';
-import UpdateClipForm from './UpdateClipForm';
+// import UpdateClipForm from './UpdateClipForm';
 
 const ClipCard = ( {title, link, notes, onDelete, id, notebook_id, onUpdate} ) => {
   const [open, setOpen] = useState(false)
@@ -16,9 +15,9 @@ const ClipCard = ( {title, link, notes, onDelete, id, notebook_id, onUpdate} ) =
   }
 
   // const handleUpdate = () => {
-  //   // we need to pass to onUpdate the following props
-  //   // clipId, clipObject = {link:'updateLink', notes:'updateNotes', title:'updatedTitle}
-  //   // then call onUpdate(clipId, clipObject)
+    // we need to pass to onUpdate the following props
+    // clipId, clipObject = {link:'updateLink', notes:'updateNotes', title:'updatedTitle}
+    // then call onUpdate(clipId, clipObject)
   //   onUpdate()
   // }
 
