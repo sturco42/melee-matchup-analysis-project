@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
-import { Button, Card, CardContent, Container } from 'semantic-ui-react'
-import { useHistory } from 'react-router-dom'
+import { Button } from 'semantic-ui-react'
 
 const CharCard = ({ name, id, user, addUserChar, removeUserChar, addNotebook }) => {
     const [char, setChar] = useState([])
-    const history = useHistory()
-    const [errors, setErrors] = useState([])
 
     const handleAddMain = () => {
         fetch('/user-characters', {
@@ -54,7 +51,6 @@ const CharCard = ({ name, id, user, addUserChar, removeUserChar, addNotebook }) 
                 alert('Notebook for that character already exists')
             }
         })
-        .catch(errors)
     }
 
     if (!char) return 'Loading...'
@@ -72,7 +68,6 @@ const CharCard = ({ name, id, user, addUserChar, removeUserChar, addNotebook }) 
                 <Button onClick={handleRemoveMain}>-</Button>
             )}
             <Button onClick={handleAddNotebook}>Create Notebook</Button>
-            {/* <Button onClick={handleDeleteNotebook}>Delete Notebook</Button> */}
         </div>
     )
 }
