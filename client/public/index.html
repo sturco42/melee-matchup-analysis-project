@@ -35,56 +35,38 @@
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
   
-  <!-- Add a button that will toggle the display of the PayPal button -->
   <button id="togglePaypalButton">Support the Website</button>
-
-  <!-- Set up a new container element for the PayPal button (empty initially) -->
   <div id="paypal-button-container"></div>
-
-  <!-- Your other HTML content goes here -->
-
-  <!-- Your React scripts and other JavaScript imports go here -->
-
-  <!-- Include the PayPal JavaScript SDK -->
   <script src="https://www.paypal.com/sdk/js?client-id=AUlw-aO8IxXOxTLBbFZiIR1UOmAVBmpMffDpXdDUIDhqIkJCcIu3jsN8GjQYrMMXmg7jXttVrpxsLPAo&currency=USD"></script>
 
   <script>
-    // Initialize a variable to keep track of the current state
     let isPaypalButtonVisible = false;
-    let paypalButtonInstance = null; // Variable to store the PayPal button instance
+    let paypalButtonInstance = null;
 
-    // Function to toggle the display of the PayPal button and update button text
     function togglePaypalButton() {
-      isPaypalButtonVisible = !isPaypalButtonVisible; // Toggle the state
+      isPaypalButtonVisible = !isPaypalButtonVisible;
 
-      // Get the container element for the PayPal button
       const paypalButtonContainer = document.getElementById('paypal-button-container');
 
       if (isPaypalButtonVisible) {
-        // Show the PayPal button and update button text
         paypalButtonContainer.style.display = 'block';
-        togglePaypalButtonButton.textContent = 'Hide PayPal Button';
+        togglePaypalButtonButton.textContent = 'Minimize';
 
-        // Render the PayPal button only if it's not already rendered
         if (!paypalButtonInstance) {
           renderPaypalButton();
         }
       } else {
-        // Hide the PayPal button and update button text
         paypalButtonContainer.style.display = 'none';
-        togglePaypalButtonButton.textContent = 'Show PayPal Button';
+        togglePaypalButtonButton.textContent = 'Support the Website';
       }
     }
 
-    // Add an event listener to the button with the specific identifier
     const togglePaypalButtonButton = document.getElementById('togglePaypalButton');
     togglePaypalButtonButton.addEventListener('click', togglePaypalButton);
 
-    // Function to render the PayPal button
     function renderPaypalButton() {
       paypalButtonInstance = paypal.Buttons({
-        // PayPal button configuration goes here
-        // ...
+        // can add more configuration here at some point if needed
       }).render('#paypal-button-container');
     }
   </script>

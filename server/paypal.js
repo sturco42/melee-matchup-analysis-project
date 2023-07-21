@@ -10,7 +10,6 @@ const baseURL = {
     production: 'https://api-m.paypal.com'
 };
 
-// allow json body
 app.use(express.json());
 
 // create a new order
@@ -27,7 +26,7 @@ app.post('/capture-paypal-order', async (req, res) => {
   res.json(captureData);
 });
 
-// PayPal API helpers if needed
+// can add PayPal API helpers if needed
 
 // use the orders api to create an order
 async function createOrder() {

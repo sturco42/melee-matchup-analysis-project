@@ -169,8 +169,6 @@ class UserById(Resource):
         if 'user_id' not in session:
             return make_response({'error': 'Unauthorized'}, 401)
         try:
-            # first check if the username already exists in the db. if it does, throw error
-            # else do rest of stuff here 
             data = request.get_json()
             if User.query.filter_by(username=data.get('username')).first():
                 return make_response({'error': 'User already exists in database'}, 401)
@@ -178,19 +176,16 @@ class UserById(Resource):
             print('we found our user', user)
             if not user:
                 return make_response({'error': 'Cannot find that user in your database'}, 404)
-            
-
-            print(' before set', user)
+            # print(' before set', user)
             user.username = data.get('username')
-            print('after set', user)
+            # print('after set', user)
             password = data.get('password')
             salt = bcrypt.gensalt()
             hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
             user.password_hash = hashed_password
-          
-            print('before db commit')
+            # print('before db commit')
             db.session.commit()
-            print('after db session commit')
+            # print('after db session commit')
             return make_response(user.to_dict(), 200)
         except Exception as e:
             return make_response({'error': str(e)}, 422)
@@ -208,20 +203,15 @@ class Notebooks(Resource):
             try:
                 character_id = request.get_json()['id']
                 existing_notebook = Notebook.query.filter_by(
-                    user_id=session['user_id'], character_id=character_id
-                ).first()
-                
+                    user_id=session['user_id'], character_id=character_id).first()
                 if existing_notebook:
                     return make_response({'error': 'Notebook for this character already exists'}, 409)
-                
                 new_notebook = Notebook(
                     user_id=session['user_id'],
                     character_id=character_id
                 )
-                
                 db.session.add(new_notebook)
                 db.session.commit()
-                
                 return make_response(new_notebook.to_dict(), 201)
             except Exception as e:
                 return make_response({'error': str(e)}, 400)

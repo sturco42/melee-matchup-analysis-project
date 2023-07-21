@@ -135,7 +135,6 @@ class Clip(db.Model, SerializerMixin):
     
     @validates('notebook_id')
     def validate_notebook_id(self, key, notebook_id):
-        # Check if the notebook_id exists in the notebooks table
         if not Notebook.query.get(notebook_id):
             raise ValueError(f"Notebook with ID {notebook_id} does not exist.")
         return notebook_id
