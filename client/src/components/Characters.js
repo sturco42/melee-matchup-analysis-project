@@ -1,8 +1,6 @@
 import React, { useState, useContext } from 'react'
 import CharCard from './CharCard'
 import { UserContext } from './UserContext'
-// import { useHistory, useParams } from 'react-router-dom'
-// import { Card, Button, Container, CardContent } from 'semantic-ui-react'
 
 const Characters = ( {charsToDisplay, addUserChar, removeUserChar, addNotebook, removeNotebook} ) => {
     
