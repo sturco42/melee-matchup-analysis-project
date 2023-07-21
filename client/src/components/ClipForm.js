@@ -1,12 +1,11 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useFormik } from 'formik'
-import { Form, Button, Message, Card } from 'semantic-ui-react'
+import { Form, Button } from 'semantic-ui-react'
 import * as yup from 'yup'
 import { UserContext } from './UserContext'
 // import Clips from './Clips'
 
-//need to pass logic into ClipForm
 const ClipForm = ( {notebook_id} ) => {
     const user = useContext(UserContext)
     const history = useHistory()
@@ -23,7 +22,7 @@ const ClipForm = ( {notebook_id} ) => {
             .min(5, 'Must be at least 5 characters')
             .max(500, 'Cannot exceed 500 characters')
             .test('is-iframe-link', 'Link must start with <iframe', (value) => {
-                if (!value) return false // Skip validation if the value is empty or null
+                if (!value) return false
                 return value.trim().startsWith('<iframe')
             })
            ,
@@ -53,11 +52,8 @@ const ClipForm = ( {notebook_id} ) => {
                 body: JSON.stringify(values),
             })
             .then((res) => {
-                // something?
                 if (res.ok) {
                     res.json()
-                    //logic for clip
-                    // .then()
                     alert('Successfully added clip')
                     history.push('/profile')
                     history.push(`/notebooks/${notebook_id}/clips`)
@@ -66,7 +62,6 @@ const ClipForm = ( {notebook_id} ) => {
                 }
             })
             .catch((error) => {
-                //other thing i want to do?
                 console.error(error)
             })
         },
