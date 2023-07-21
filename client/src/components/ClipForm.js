@@ -59,6 +59,8 @@ const ClipForm = ( {notebook_id} ) => {
                     //logic for clip
                     // .then()
                     alert('Successfully added clip')
+                    history.push('/profile')
+                    history.push(`/notebooks/${notebook_id}/clips`)
                 } else {
                     res.json().then((errors) => setErrors(errors.errors))
                 }

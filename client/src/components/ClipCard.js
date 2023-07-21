@@ -1,4 +1,3 @@
-// imports
 import React, { useState } from 'react'
 // import { Button, Header, Image, Modal } from 'semantic-ui-react'
 import ClipModal from './ClipModal';
@@ -16,20 +15,20 @@ const ClipCard = ( {title, link, notes, onDelete, id, notebook_id, onUpdate} ) =
 
   }
 
-  const handleUpdate = () => {
-    // we need to pass to onUpdate the following props
-    // clipId, clipObject = {link:'updateLink', notes:'updateNotes', title:'updatedTitle}
-    // then call onUpdate(clipId, clipObject)
-    onUpdate()
-  }
+  // const handleUpdate = () => {
+  //   // we need to pass to onUpdate the following props
+  //   // clipId, clipObject = {link:'updateLink', notes:'updateNotes', title:'updatedTitle}
+  //   // then call onUpdate(clipId, clipObject)
+  //   onUpdate()
+  // }
 
   return (
     <>
       <div>
-        <button onClick={handleClick} >{title}</button>
+        <button onClick={handleClick}>{title}</button>
         <button onClick={handleDelete}>Delete Clip</button>
         {/* <UpdateClipForm handleUpdate={handleUpdate} clip={clip} /> */}
-        <button>Edit Clip</button>
+        {/* <button>Edit Clip</button> */}
       </div>
       <ClipModal
         open={open}

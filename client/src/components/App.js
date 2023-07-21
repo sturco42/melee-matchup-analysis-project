@@ -154,7 +154,7 @@ function App() {
           <Route exact path='/notebooks'>
             <Notebooks notebooksToDisplay={user?.notebooks} removeNotebook={removeNotebook} />
           </Route>
-          <Route exact path='/notebooks/:id/clips/:id' component={Clips} />
+          <Route exact path='/notebooks/:id/clips' component={Clips} />
           <Route exact path='/contact-us' component={ContactUs} />
         </Switch>
       </UserContext.Provider>

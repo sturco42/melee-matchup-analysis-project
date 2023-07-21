@@ -1,19 +1,13 @@
 import React, { useState } from 'react'
 import { Button, Card, CardContent, Container } from 'semantic-ui-react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 const CharCard = ({ name, id, user, addUserChar, removeUserChar, addNotebook }) => {
-//   const { id } = useParams()
-  const [char, setChar] = useState([])
-  const history = useHistory()
+    const [char, setChar] = useState([])
+    const history = useHistory()
+    const [errors, setErrors] = useState([])
 
     const handleAddMain = () => {
-    // character should look like
-    // {
-    //   character: {name: 'something'},
-    //   id: 999,
-    //   user_id: 666
-    // }
         fetch('/user-characters', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -33,17 +27,14 @@ const CharCard = ({ name, id, user, addUserChar, removeUserChar, addNotebook }) 
         })
     }
 
-  const handleRemoveMain = () => {
-    // the ID here is the general id of the character e.g. 14 of kirby
-    // This works because on the backend we match on character ID and user ID (so we don't need the specific 214 user_char id)
-    fetch(`/user-characters/${id}`, { method: 'DELETE' }).then((res) => {
-        if (res.ok) {
-            // we need to get the specific character user id (e.g. 214 or something for kirby) because that is how we match and remove from our react state
-            const characterUserId = user?.user_characters.find(
-                (character) => character?.character?.name === name
-            )?.id
-            removeUserChar(characterUserId)
-            alert('Successfully removed main')
+    const handleRemoveMain = () => {
+        fetch(`/user-characters/${id}`, { method: 'DELETE' }).then((res) => {
+            if (res.ok) {
+                const characterUserId = user?.user_characters.find(
+                    (character) => character?.character?.name === name
+                )?.id
+                removeUserChar(characterUserId)
+                alert('Successfully removed main')
             } else {
                 alert('Something went wrong')
             }
@@ -59,29 +50,18 @@ const CharCard = ({ name, id, user, addUserChar, removeUserChar, addNotebook }) 
         .then((res) => {
             if (res.ok) {
                 res.json().then((data) => addNotebook(data))
+            } else {
+                alert('Notebook for that character already exists')
             }
         })
+        .catch(errors)
     }
 
-//   const handleDeleteNotebook = () => {
-//     fetch(`/notebooks/${id}`, { method: 'DELETE' }).then((res) => {
-//         return ((console.log('user:'))(console.log(user)))
-//         // if (res.ok) {
-//         //     const notebookId = ???
-//         //     removeNotebook(notebookId)
-//         //     alert('Successfully removed notebook')
-//         // }   else {
-//         //     alert('Something went wrong')
-//         // }
-//         })
-//   }
-
     if (!char) return 'Loading...'
-    // Mains is switching form
+
     const mains = user?.user_characters?.map((main) => main.character) || []
 
-    const charIsMain =
-        mains.find((character) => character?.name === name) !== undefined
+    const charIsMain = mains.find((character) => character?.name === name) !== undefined
 
     return (
         <div>

@@ -47,8 +47,6 @@ const UpdateUserForm = ({ updateUser, user, toggleForm }) => {
             });
           } else {
             res.json().then((err) => {
-
-              
               const myError = {
                 username: err.error
               }
